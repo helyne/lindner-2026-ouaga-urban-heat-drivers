@@ -12,6 +12,7 @@
 ### Prerequisites
 
 - Python 3.11+
+- R >= 4.3 (for GCCM causal analysis only — see [`R/INSTALL.md`](R/INSTALL.md))
 - A [Google Earth Engine](https://earthengine.google.com/) account (free for research use). See the [GEE access guide](https://developers.google.com/earth-engine/guides/access) and `notebooks/GEE_setup.ipynb` for setup instructions.
 
 ### Setup
@@ -47,10 +48,15 @@ src/                 # Reusable Python modules
   data.py            #   Configuration loading, raster-to-DataFrame conversion
   pipeline.py        #   GEE feature engineering, stacking, and download
 
+R/                   # GCCM causal analysis (R scripts)
+  gccm_config.R      #   Shared config (predictors, parameters, paths)
+  gccm_analysis.R    #   Main GCCM analysis script
+  INSTALL.md         #   R dependency installation instructions
+
 notebooks/           # Analysis notebooks
   01_processing_pipeline #   GEE computation and raster export
   02_eda                 #   Exploratory data analysis and validation
-  03_causal_analysis     #   Geographical Convergent Cross-Mapping (GCCM)
+  03_causal_analysis     #   GCCM publication figures
   models                 #   XGBoost, Random Forest, SHAP interpretability
 
 data/
@@ -69,6 +75,35 @@ df, config = load_dataset("config/processing.yaml")
 ```
 
 This returns a DataFrame with one row per valid pixel and columns for each band (NDVI, NDBI, BSI, DEM, distance_to_water, distance_to_roads, built_density, green_density, LST, hotspot), plus pixel coordinates (row, col, lon, lat).
+
+### Reproducing all figures
+
+Run the steps below in order. Each step depends on the outputs of the previous one.
+
+1. **GEE processing** — computes the aligned raster stack from satellite imagery:
+   ```bash
+   jupyter notebook notebooks/01_processing_pipeline.ipynb
+   ```
+   Requires a GEE account. Outputs: `data/processed/ouaga_aligned_stack.tif`
+
+2. **GCCM causal analysis** — runs the Geographical Convergent Cross-Mapping in R:
+   ```bash
+   Rscript R/gccm_analysis.R --fixed-E=3 --tau=1
+   ```
+   Requires R packages (see [`R/INSTALL.md`](R/INSTALL.md)). Outputs: `outputs/gccm/main_E3_tau1/`
+
+3. **ML models and SHAP** — trains XGBoost/RF/SVM, generates SHAP and susceptibility figures:
+   ```bash
+   jupyter notebook notebooks/models.ipynb
+   ```
+
+4. **GCCM figures** — generates convergence and directional asymmetry plots:
+   ```bash
+   jupyter notebook notebooks/03_causal_analysis.ipynb
+   ```
+   Outputs: `figures/pub/gccm_convergence_tau1.png`, `figures/pub/gccm_asymmetry_tau1.png`
+
+**Data access:** The processed raster stack (`data/processed/ouaga_aligned_stack.tif`) can be regenerated from Step 1, or obtained from the authors on request. All input data sources are open-access (see [Data](#data) section below).
 
 
 ## Research question/objective
