@@ -1,11 +1,18 @@
-# Cross-City Insights into Urban Heat Hot-spots: Evidence from Ouagadougou, Burkina Faso
+# Reversal of UHI Drivers in a Sahelian City: Low Built-Up Density Increases Heat in Ouagadougou
 
+## Authors
 
-## Contributors
-**Ajadi Sodiq Abayomi**, **Helyne Adamson**, **Sharon Christa**, **Elisabeth Lindner**
+**Elisabeth Lindner**¹, **Helyne Adamson**², **Ajadi Sodiq Abayomi**³, **Sharon Christa**⁴, **Daniel Fiifi Tawia Hagan**⁵
 
-## Presentations
+¹ Heidelberg Institute of Global Health (HIGH), Heidelberg University Hospital, Heidelberg University, Germany
+² Independent Researcher, Germany
+³ University of Manchester, United Kingdom
+⁴ School of Computing, MIT Art Design and Technology University, Pune, India
+⁵ Hydro-Climate Extremes Lab, Ghent University, Ghent, Belgium
 
+## Abstract
+
+Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of surface heating remain unknown. Here we combine machine-learning classification (XGBoost, Random Forest, SVM) with spatial causal inference to disentangle correlation from causation among hotspot drivers in Ouagadougou, Burkina Faso. XGBoost generalised best (F1 = 0.70, κ = 0.67) while SHAP analysis identified built-up density as the dominant predictor. Geographical convergent cross-mapping confirmed it as a unidirectional cause of surface temperature, while spectral indices showed only bidirectional coupling despite strong correlations. Opposite to humid tropical cities, lower built-up density increases hotspot risk due to exposed bare soil. These findings point to compact urban form as a heat mitigation strategy.
 
 ## Getting started
 
@@ -23,12 +30,13 @@
    cd ouaga-urban-heat-drivers
    ```
 
-2. Create a virtual environment and install dependencies:
+2. Create a virtual environment and install the package + dependencies:
    ```bash
    python -m venv .venv
    source .venv/bin/activate   # On Windows: .venv\Scripts\activate
-   pip install -r requirements.txt
+   pip install -e .
    ```
+   This installs the project in editable mode (registers `src/` as an importable package) and pulls all dependencies pinned in `requirements.txt`.
 
 3. Authenticate with Google Earth Engine:
    ```bash
@@ -36,7 +44,7 @@
    ```
    Then initialize with your GEE cloud project ID. See [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for a detailed walkthrough if this is your first time using GEE.
 
-4. Set up the data. See [`data/README.md`](data/README.md) for full details on data sources, GEE asset setup, and how to regenerate the processed raster stack.
+4. Download archived data and pre-fit models. See [Data access](#data-access) below.
 
 ### Project structure
 
@@ -66,7 +74,7 @@ data/
 
 ### Loading the data
 
-Once the processed raster exists (either by running the pipeline or obtaining it from a collaborator), load it in any notebook or script:
+Once the processed raster exists (either by running the pipeline or downloading from Zenodo), load it in any notebook or script:
 
 ```python
 from src.data import load_dataset
@@ -76,7 +84,7 @@ df, config = load_dataset("config/processing.yaml")
 
 This returns a DataFrame with one row per valid pixel and columns for each band (NDVI, NDBI, BSI, DEM, distance_to_water, distance_to_roads, built_density, green_density, LST, hotspot), plus pixel coordinates (row, col, lon, lat).
 
-### Reproducing all figures
+## Reproducing the paper
 
 Run the steps below in order. Each step depends on the outputs of the previous one.
 
@@ -96,6 +104,8 @@ Run the steps below in order. Each step depends on the outputs of the previous o
    ```bash
    jupyter notebook notebooks/03_models.ipynb
    ```
+   By default, the notebook runs in `MODEL_MODE = "load"` and reads the pre-fit pickled models from `models/Hotspotters_Models.zip` (download from Zenodo — see [Data access](#data-access)). This reproduces the exact published numbers in seconds. To retrain from scratch with the same hyperparameters, set `MODEL_MODE = "manual"` (~2 min).
+
    Outputs: `figures/pub/shap_*.png`, `figures/pub/susceptibility_maps.png`
 
 4. **GCCM causal analysis** — runs the Geographical Convergent Cross-Mapping in R:
@@ -110,8 +120,18 @@ Run the steps below in order. Each step depends on the outputs of the previous o
    ```
    Outputs: `figures/pub/gccm_convergence_tau1.png`, `figures/pub/gccm_asymmetry_tau1.png`
 
-**Data access:** The processed raster stack (`data/processed/ouaga_aligned_stack.tif`) can be regenerated from Step 1, or obtained from the authors on request. All input data sources are open-access (see [Data](#data) section below).
+## Data access
 
+The processed raster stack and pre-fit ML models are archived on Zenodo:
+
+| Artifact | Path in repo | Zenodo DOI |
+|---|---|---|
+| Processed raster stack | `data/processed/ouaga_aligned_stack.tif` | _DOI pending_ |
+| Pre-fit ML models (XGBoost, RF, SVM) | `models/Hotspotters_Models.zip` | _DOI pending_ |
+
+Download both, place them at the paths shown above, then run the notebooks. The raster is also fully regenerable from Step 1 (GEE) — see [`data/README.md`](data/README.md) for full data sources and provenance. All input data sources are open-access.
+
+**Code archive:** This codebase is archived on Zenodo at _DOI pending_. Cite this DOI when referencing the analysis code.
 
 ## Research question/objective
 
@@ -174,3 +194,13 @@ Gao, B., Yang, J., Chen, Z. et al. Causal inference from cross-sectional earth s
 Hoang, ND., Huynh, TC. & Bui, DT. An interpretable machine learning framework for mapping hotspots and identifying their driving factors in urban environments during heat waves. Environ Monit Assess 197, 1017 (2025). https://doi.org/10.1007/s10661-025-14461-0
 
 Yeboah, E., Wang, G., Hagan, D.F.T. et al. A causal investigation of land use and land cover change on emerging urban heat island footprints in a mid-latitude region. Environ Dev Sustain (2025). https://doi.org/10.1007/s10668-025-06328-8
+
+
+## Acknowledgements
+
+We would like to express our sincere gratitude to our mentor, Daniel Fiifi Tawia Hagan (Hydro-Climate Extremes Lab, Ghent University), for his invaluable guidance and support throughout this study. His expertise and encouragement were instrumental in shaping the direction of this work. We extend our appreciation to the Climatematch Impact Scholars Program for providing the resources and platform necessary to conduct this research.
+
+
+## License
+
+This project is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0-or-later). See [`LICENSE`](LICENSE).
