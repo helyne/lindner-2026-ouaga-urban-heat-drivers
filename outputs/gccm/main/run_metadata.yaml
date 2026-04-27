@@ -1,0 +1,27 @@
+timestamp: original run (metadata restored 2026-03-10)
+run_label: agg5_tau10_E2-15_8pred
+git_hash: 68f1232
+git_dirty: ''
+r_version: 4.3.1
+spEDM_version: '1.7'
+terra_version: 1.8.54
+params:
+  AGG_FACTOR: 5.0
+  E_RANGE: '2:15'
+  LIB_SIZES: seq(10,120,10)
+  N_PRED: 2000.0
+  SEED: 42.0
+  THREADS: 6.0
+  tau: 10.0
+  detrend: yes
+  fixed_E: null (simplex selection)
+  predictors:
+  - built_density
+  - green_density
+  - distance_to_water
+  - distance_to_roads
+  - DEM
+  - NDBI
+  - BSI
+  - NDVI
+  ci_method: nominal N (Gao et al. 2023); Clifford/Dutilleul N_eff stored as supplementary

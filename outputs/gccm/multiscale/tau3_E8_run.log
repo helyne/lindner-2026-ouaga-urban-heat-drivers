@@ -1,0 +1,132 @@
+Warning message:
+package ‘spEDM’ was built under R version 4.3.3 
+terra 1.8.54
+Warning message:
+package ‘terra’ was built under R version 4.3.3 
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+Loading required package: fastmatrix
+Warning messages:
+1: package ‘SpatialPack’ was built under R version 4.3.3 
+2: package ‘fastmatrix’ was built under R version 4.3.3 
+=== GCCM Analysis ===
+
+Run label: agg5_tau3_Efixed8_8pred
+Output:    outputs/gccm/multiscale/tau3_E8
+tau = 3 (spatial lag ~ 450m at 5x aggregation)
+detrend = TRUE
+fixed E = 8 (simplex skipped)
+Loading raster: data/processed/ouaga_aligned_stack.tif 
+  Original: 10 bands, 892 x 991 pixels (30m)
+  Aggregated (x5): 179 x 199 pixels (150m)
+  Valid pixels: 24904 / 35621 (69.9%)
+  Library: 24904 pixels, Prediction: 2000 pixels
+
+=== Step 1: Fixed E = 8 (simplex skipped) ===
+
+Saved: outputs/gccm/multiscale/tau3_E8/simplex_selection.csv
+
+=== Step 2: GCCM analysis ===
+
+--- built_density <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m46s remaining)       Computing: [=======                                 ] 17%  (~5m33s remaining)       Computing: [==========                              ] 25%  (~7m19s remaining)       Computing: [==============                          ] 33%  (~8m49s remaining)       Computing: [=================                       ] 42%  (~9m49s remaining)       Computing: [====================                    ] 50%  (~10m7s remaining)       Computing: [========================                ] 58%  (~9m43s remaining)       Computing: [===========================             ] 67%  (~8m40s remaining)       Computing: [==============================          ] 75%  (~7m4s remaining)       Computing: [==================================      ] 83%  (~5m2s remaining)       Computing: [=====================================   ] 92%  (~2m37s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m37s remaining)       Computing: [=======                                 ] 17%  (~5m27s remaining)       Computing: [==========                              ] 25%  (~7m14s remaining)       Computing: [==============                          ] 33%  (~8m43s remaining)       Computing: [=================                       ] 42%  (~9m46s remaining)       Computing: [====================                    ] 50%  (~10m2s remaining)       Computing: [========================                ] 58%  (~9m46s remaining)       Computing: [===========================             ] 67%  (~8m42s remaining)       Computing: [==============================          ] 75%  (~7m3s remaining)       Computing: [==================================      ] 83%  (~5m3s remaining)       Computing: [=====================================   ] 92%  (~2m39s remaining)       Computing: [========================================] 100% (done)                         
+  built_density -> LST: rho = 0.650 (final)
+  LST -> built_density: rho = 0.666 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_built_density.rds
+--- green_density <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m40s remaining)       Computing: [=======                                 ] 17%  (~5m27s remaining)       Computing: [==========                              ] 25%  (~7m12s remaining)       Computing: [==============                          ] 33%  (~8m40s remaining)       Computing: [=================                       ] 42%  (~9m36s remaining)       Computing: [====================                    ] 50%  (~9m52s remaining)       Computing: [========================                ] 58%  (~9m30s remaining)       Computing: [===========================             ] 67%  (~8m31s remaining)       Computing: [==============================          ] 75%  (~6m56s remaining)       Computing: [==================================      ] 83%  (~4m57s remaining)       Computing: [=====================================   ] 92%  (~2m34s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m36s remaining)       Computing: [=======                                 ] 17%  (~5m26s remaining)       Computing: [==========                              ] 25%  (~7m13s remaining)       Computing: [==============                          ] 33%  (~8m42s remaining)       Computing: [=================                       ] 42%  (~9m39s remaining)       Computing: [====================                    ] 50%  (~9m55s remaining)       Computing: [========================                ] 58%  (~9m38s remaining)       Computing: [===========================             ] 67%  (~8m35s remaining)       Computing: [==============================          ] 75%  (~6m58s remaining)       Computing: [==================================      ] 83%  (~4m58s remaining)       Computing: [=====================================   ] 92%  (~2m34s remaining)       Computing: [========================================] 100% (done)                         
+  green_density -> LST: rho = 0.455 (final)
+  LST -> green_density: rho = 0.447 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_green_density.rds
+--- distance_to_water <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m9s remaining)       Computing: [=======                                 ] 17%  (~4m54s remaining)       Computing: [==========                              ] 25%  (~6m39s remaining)       Computing: [==============                          ] 33%  (~8m8s remaining)       Computing: [=================                       ] 42%  (~9m7s remaining)       Computing: [====================                    ] 50%  (~9m28s remaining)       Computing: [========================                ] 58%  (~9m11s remaining)       Computing: [===========================             ] 67%  (~8m14s remaining)       Computing: [==============================          ] 75%  (~6m43s remaining)       Computing: [==================================      ] 83%  (~4m48s remaining)       Computing: [=====================================   ] 92%  (~2m32s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m34s remaining)       Computing: [=======                                 ] 17%  (~5m23s remaining)       Computing: [==========                              ] 25%  (~7m8s remaining)       Computing: [==============                          ] 33%  (~8m36s remaining)       Computing: [=================                       ] 42%  (~9m33s remaining)       Computing: [====================                    ] 50%  (~9m49s remaining)       Computing: [========================                ] 58%  (~9m32s remaining)       Computing: [===========================             ] 67%  (~8m32s remaining)       Computing: [==============================          ] 75%  (~6m56s remaining)       Computing: [==================================      ] 83%  (~4m55s remaining)       Computing: [=====================================   ] 92%  (~2m33s remaining)       Computing: [========================================] 100% (done)                         
+  distance_to_water -> LST: rho = 0.717 (final)
+  LST -> distance_to_water: rho = 0.561 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_distance_to_water.rds
+--- distance_to_roads <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m39s remaining)       Computing: [=======                                 ] 17%  (~5m28s remaining)       Computing: [==========                              ] 25%  (~7m12s remaining)       Computing: [==============                          ] 33%  (~8m38s remaining)       Computing: [=================                       ] 42%  (~9m42s remaining)       Computing: [====================                    ] 50%  (~9m56s remaining)       Computing: [========================                ] 58%  (~9m33s remaining)       Computing: [===========================             ] 67%  (~8m31s remaining)       Computing: [==============================          ] 75%  (~6m57s remaining)       Computing: [==================================      ] 83%  (~5m0s remaining)       Computing: [=====================================   ] 92%  (~2m37s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m35s remaining)       Computing: [=======                                 ] 17%  (~5m23s remaining)       Computing: [==========                              ] 25%  (~7m8s remaining)       Computing: [==============                          ] 33%  (~8m36s remaining)       Computing: [=================                       ] 42%  (~9m33s remaining)       Computing: [====================                    ] 50%  (~9m50s remaining)       Computing: [========================                ] 58%  (~9m29s remaining)       Computing: [===========================             ] 67%  (~8m33s remaining)       Computing: [==============================          ] 75%  (~7m0s remaining)       Computing: [==================================      ] 83%  (~5m6s remaining)       Computing: [=====================================   ] 92%  (~2m41s remaining)       Computing: [========================================] 100% (done)                         
+  distance_to_roads -> LST: rho = 0.500 (final)
+  LST -> distance_to_roads: rho = 0.526 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_distance_to_roads.rds
+--- DEM <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m27s remaining)       Computing: [=======                                 ] 17%  (~5m19s remaining)       Computing: [==========                              ] 25%  (~7m5s remaining)       Computing: [==============                          ] 33%  (~8m35s remaining)       Computing: [=================                       ] 42%  (~9m32s remaining)       Computing: [====================                    ] 50%  (~9m49s remaining)       Computing: [========================                ] 58%  (~9m32s remaining)       Computing: [===========================             ] 67%  (~8m39s remaining)       Computing: [==============================          ] 75%  (~7m6s remaining)       Computing: [==================================      ] 83%  (~5m9s remaining)       Computing: [=====================================   ] 92%  (~2m42s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m34s remaining)       Computing: [=======                                 ] 17%  (~5m23s remaining)       Computing: [==========                              ] 25%  (~7m8s remaining)       Computing: [==============                          ] 33%  (~8m36s remaining)       Computing: [=================                       ] 42%  (~9m33s remaining)       Computing: [====================                    ] 50%  (~9m49s remaining)       Computing: [========================                ] 58%  (~9m28s remaining)       Computing: [===========================             ] 67%  (~8m27s remaining)       Computing: [==============================          ] 75%  (~6m53s remaining)       Computing: [==================================      ] 83%  (~4m54s remaining)       Computing: [=====================================   ] 92%  (~2m34s remaining)       Computing: [========================================] 100% (done)                         
+  DEM -> LST: rho = 0.703 (final)
+  LST -> DEM: rho = 0.648 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_DEM.rds
+--- NDBI <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m55s remaining)       Computing: [=======                                 ] 17%  (~5m42s remaining)       Computing: [==========                              ] 25%  (~8m20s remaining)       Computing: [==============                          ] 33%  (~10m26s remaining)       Computing: [=================                       ] 42%  (~11m50s remaining)       Computing: [====================                    ] 50%  (~12m24s remaining)       Computing: [========================                ] 58%  (~12m7s remaining)       Computing: [===========================             ] 67%  (~10m58s remaining)       Computing: [==============================          ] 75%  (~8m58s remaining)       Computing: [==================================      ] 83%  (~6m20s remaining)       Computing: [=====================================   ] 92%  (~3m18s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~4m26s remaining)       Computing: [=======                                 ] 17%  (~6m41s remaining)       Computing: [==========                              ] 25%  (~8m52s remaining)       Computing: [==============                          ] 33%  (~10m50s remaining)       Computing: [=================                       ] 42%  (~12m6s remaining)       Computing: [====================                    ] 50%  (~12m22s remaining)       Computing: [========================                ] 58%  (~11m56s remaining)       Computing: [===========================             ] 67%  (~10m38s remaining)       Computing: [==============================          ] 75%  (~8m39s remaining)       Computing: [==================================      ] 83%  (~6m16s remaining)       Computing: [=====================================   ] 92%  (~3m16s remaining)       Computing: [========================================] 100% (done)                         
+  NDBI -> LST: rho = 0.739 (final)
+  LST -> NDBI: rho = 0.751 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_NDBI.rds
+--- BSI <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~4m31s remaining)       Computing: [=======                                 ] 17%  (~6m27s remaining)       Computing: [==========                              ] 25%  (~7m52s remaining)       Computing: [==============                          ] 33%  (~9m10s remaining)       Computing: [=================                       ] 42%  (~9m57s remaining)       Computing: [====================                    ] 50%  (~10m7s remaining)       Computing: [========================                ] 58%  (~9m43s remaining)       Computing: [===========================             ] 67%  (~8m39s remaining)       Computing: [==============================          ] 75%  (~7m1s remaining)       Computing: [==================================      ] 83%  (~5m1s remaining)       Computing: [=====================================   ] 92%  (~2m38s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m35s remaining)       Computing: [=======                                 ] 17%  (~5m24s remaining)       Computing: [==========                              ] 25%  (~7m8s remaining)       Computing: [==============                          ] 33%  (~8m37s remaining)       Computing: [=================                       ] 42%  (~9m38s remaining)       Computing: [====================                    ] 50%  (~9m53s remaining)       Computing: [========================                ] 58%  (~9m48s remaining)       Computing: [===========================             ] 67%  (~8m48s remaining)       Computing: [==============================          ] 75%  (~7m7s remaining)       Computing: [==================================      ] 83%  (~5m7s remaining)       Computing: [=====================================   ] 92%  (~2m43s remaining)       Computing: [========================================] 100% (done)                         
+  BSI -> LST: rho = 0.711 (final)
+  LST -> BSI: rho = 0.749 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_BSI.rds
+--- NDVI <-> LST ---
+  E = c(8, 8)
+Computing: [====                                    ] 8%  (~3m40s remaining)       Computing: [=======                                 ] 17%  (~5m31s remaining)       Computing: [==========                              ] 25%  (~7m13s remaining)       Computing: [==============                          ] 33%  (~8m37s remaining)       Computing: [=================                       ] 42%  (~9m31s remaining)       Computing: [====================                    ] 50%  (~9m46s remaining)       Computing: [========================                ] 58%  (~9m29s remaining)       Computing: [===========================             ] 67%  (~8m33s remaining)       Computing: [==============================          ] 75%  (~7m1s remaining)       Computing: [==================================      ] 83%  (~5m5s remaining)       Computing: [=====================================   ] 92%  (~2m39s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~3m36s remaining)       Computing: [=======                                 ] 17%  (~5m26s remaining)       Computing: [==========                              ] 25%  (~7m10s remaining)       Computing: [==============                          ] 33%  (~8m37s remaining)       Computing: [=================                       ] 42%  (~9m34s remaining)       Computing: [====================                    ] 50%  (~9m50s remaining)       Computing: [========================                ] 58%  (~9m31s remaining)       Computing: [===========================             ] 67%  (~8m29s remaining)       Computing: [==============================          ] 75%  (~6m55s remaining)       Computing: [==================================      ] 83%  (~5m1s remaining)       Computing: [=====================================   ] 92%  (~2m38s remaining)       Computing: [========================================] 100% (done)                         
+  NDVI -> LST: rho = 0.553 (final)
+  LST -> NDVI: rho = 0.546 (final)
+
+  Checkpointed: outputs/gccm/multiscale/tau3_E8/checkpoints/gccm_NDVI.rds
+
+Completed 8 / 8 predictors.
+
+=== Step 2b: Effective N (Clifford/Dutilleul) ===
+
+  built_density: N_eff = 89 (nominal = 2000, ratio = 0.045)
+  green_density: N_eff = 454 (nominal = 2000, ratio = 0.227)
+  distance_to_water: N_eff = 54 (nominal = 2000, ratio = 0.027)
+  distance_to_roads: N_eff = 567 (nominal = 2000, ratio = 0.284)
+  DEM: N_eff = 124 (nominal = 2000, ratio = 0.062)
+  NDBI: N_eff = 95 (nominal = 2000, ratio = 0.047)
+  BSI: N_eff = 159 (nominal = 2000, ratio = 0.079)
+  NDVI: N_eff = 662 (nominal = 2000, ratio = 0.331)
+
+=== Step 3: Build results with CIs ===
+
+Saved: outputs/gccm/multiscale/tau3_E8/results.csv
+
+=== Step 4: Convergence plots ===
+
+Saved: outputs/gccm/multiscale/tau3_E8/convergence.png
+
+=== GCCM Summary ===
+
+Predictor              N_eff pred>LST    p_fwd [        CI_fwd] LST>pred    p_rev [        CI_rev] K_fwd K_rev Direction
+------------------------------------------------------------------------------------------------------------------------ 
+built_density             89   +0.650   0.0000 [+0.511, +0.756]   +0.666   0.0000 [+0.532, +0.768] +1.00 +1.00 both significant
+green_density            454   +0.455   0.0000 [+0.379, +0.525]   +0.447   0.0000 [+0.370, +0.518] +1.00 +1.00 both significant
+distance_to_water         54   +0.717   0.0000 [+0.556, +0.827]   +0.561   0.0000 [+0.345, +0.721] +1.00 +1.00 both significant
+distance_to_roads        567   +0.500   0.0000 [+0.436, +0.559]   +0.526   0.0000 [+0.464, +0.583] +1.00 +1.00 both significant
+DEM                      124   +0.703   0.0000 [+0.602, +0.783]   +0.648   0.0000 [+0.532, +0.739] +1.00 +1.00 both significant
+NDBI                      95   +0.739   0.0000 [+0.632, +0.819]   +0.751   0.0000 [+0.647, +0.827] +1.00 +1.00 both significant
+BSI                      159   +0.711   0.0000 [+0.625, +0.781]   +0.749   0.0000 [+0.671, +0.810] +1.00 +1.00 both significant
+NDVI                     662   +0.553   0.0000 [+0.498, +0.604]   +0.546   0.0000 [+0.490, +0.597] +1.00 +1.00 both significant
+
+Saved: outputs/gccm/multiscale/tau3_E8/summary.csv
+
+=== Done ===

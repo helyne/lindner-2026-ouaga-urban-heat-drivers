@@ -1,0 +1,89 @@
+Warning message:
+package ‘spEDM’ was built under R version 4.3.3 
+terra 1.8.54
+Warning message:
+package ‘terra’ was built under R version 4.3.3 
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+Loading required package: fastmatrix
+Warning messages:
+1: package ‘SpatialPack’ was built under R version 4.3.3 
+2: package ‘fastmatrix’ was built under R version 4.3.3 
+=== GCCM Analysis ===
+
+Run label: agg5_tau10_E2-15_8pred
+Output:    outputs/gccm/main
+tau = 10 (spatial lag ~ 1500m at 5x aggregation)
+detrend = TRUE
+Loading raster: data/processed/ouaga_aligned_stack.tif 
+  Original: 10 bands, 892 x 991 pixels (30m)
+  Aggregated (x5): 179 x 199 pixels (150m)
+  Valid pixels: 24904 / 35621 (69.9%)
+  Library: 24904 pixels, Prediction: 2000 pixels
+
+=== Step 1: Simplex E-selection ===
+
+  Loading from checkpoint...
+  simplex(built_density): E = 12 (cached)
+  simplex(green_density): E = 10 (cached)
+  simplex(distance_to_water): E = 9 (cached)
+  simplex(distance_to_roads): E = 12 (cached)
+  simplex(DEM): E = 9 (cached)
+  simplex(NDBI): E = 10 (cached)
+  simplex(BSI): E = 11 (cached)
+  simplex(NDVI): E = 10 (cached)
+  simplex(LST): E = 9 (cached)
+
+Saved: outputs/gccm/main/simplex_selection.csv
+Saved: outputs/gccm/main/simplex_full.csv
+
+=== Step 2: GCCM analysis ===
+
+  Loaded 8 cached predictor(s): built_density, green_density, distance_to_water, distance_to_roads, DEM, NDBI, BSI, NDVI
+
+--- built_density <-> LST --- (cached, rho = 0.639 / 0.694)
+--- green_density <-> LST --- (cached, rho = 0.503 / 0.584)
+--- distance_to_water <-> LST --- (cached, rho = 0.710 / 0.663)
+--- distance_to_roads <-> LST --- (cached, rho = 0.550 / 0.584)
+--- DEM <-> LST --- (cached, rho = 0.720 / 0.616)
+--- NDBI <-> LST --- (cached, rho = 0.684 / 0.672)
+--- BSI <-> LST --- (cached, rho = 0.645 / 0.678)
+--- NDVI <-> LST --- (cached, rho = 0.569 / 0.503)
+
+Completed 8 / 8 predictors.
+
+=== Step 2b: Effective N (Clifford/Dutilleul) ===
+
+  built_density: N_eff = 89 (nominal = 2000, ratio = 0.045)
+  green_density: N_eff = 454 (nominal = 2000, ratio = 0.227)
+  distance_to_water: N_eff = 54 (nominal = 2000, ratio = 0.027)
+  distance_to_roads: N_eff = 567 (nominal = 2000, ratio = 0.284)
+  DEM: N_eff = 124 (nominal = 2000, ratio = 0.062)
+  NDBI: N_eff = 95 (nominal = 2000, ratio = 0.047)
+  BSI: N_eff = 159 (nominal = 2000, ratio = 0.079)
+  NDVI: N_eff = 662 (nominal = 2000, ratio = 0.331)
+
+=== Step 3: Build results with CIs ===
+
+Saved: outputs/gccm/main/results.csv
+
+=== Step 4: Convergence plots ===
+
+Saved: outputs/gccm/main/convergence.png
+
+=== GCCM Summary ===
+
+Predictor              N_eff pred>LST    p_fwd [        CI_fwd] LST>pred    p_rev [        CI_rev] K_fwd K_rev Direction
+------------------------------------------------------------------------------------------------------------------------ 
+built_density             89   +0.639   0.0000 [+0.497, +0.747]   +0.694   0.0000 [+0.568, +0.788] +1.00 +1.00 both significant
+green_density            454   +0.503   0.0000 [+0.431, +0.569]   +0.584   0.0000 [+0.520, +0.642] +1.00 +1.00 both significant
+distance_to_water         54   +0.710   0.0000 [+0.546, +0.822]   +0.663   0.0000 [+0.479, +0.791] +1.00 +1.00 both significant
+distance_to_roads        567   +0.550   0.0000 [+0.490, +0.605]   +0.584   0.0000 [+0.527, +0.636] +1.00 +1.00 both significant
+DEM                      124   +0.720   0.0000 [+0.623, +0.796]   +0.616   0.0000 [+0.493, +0.715] +1.00 +1.00 both significant
+NDBI                      95   +0.684   0.0000 [+0.559, +0.778]   +0.672   0.0000 [+0.543, +0.769] +1.00 +1.00 both significant
+BSI                      159   +0.645   0.0000 [+0.544, +0.728]   +0.678   0.0000 [+0.584, +0.754] +1.00 +1.00 both significant
+NDVI                     662   +0.569   0.0000 [+0.515, +0.618]   +0.503   0.0000 [+0.444, +0.558] +1.00 +1.00 both significant
+
+Saved: outputs/gccm/main/summary.csv
+
+=== Done ===

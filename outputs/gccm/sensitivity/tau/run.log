@@ -1,0 +1,226 @@
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+
+========== tau = 1 ==========
+
+Warning message:
+package ‘spEDM’ was built under R version 4.3.3 
+terra 1.8.54
+Warning message:
+package ‘terra’ was built under R version 4.3.3 
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+Loading required package: fastmatrix
+Warning messages:
+1: package ‘SpatialPack’ was built under R version 4.3.3 
+2: package ‘fastmatrix’ was built under R version 4.3.3 
+=== GCCM Analysis ===
+
+Run label: agg5_tau1_E2-15_3pred
+Output:    outputs/gccm/sensitivity/tau/tau1
+tau = 1 (spatial lag ~ 150m at 5x aggregation)
+Loading raster: data/processed/ouaga_aligned_stack.tif 
+  Original: 10 bands, 892 x 991 pixels (30m)
+  Aggregated (x5): 179 x 199 pixels (150m)
+  Valid pixels: 24904 / 35621 (69.9%)
+  Library: 24904 pixels, Prediction: 2000 pixels
+
+=== Step 1: Simplex E-selection ===
+
+  Loading from checkpoint...
+  simplex(DEM): E = 4 (cached)
+  simplex(BSI): E = 15 (cached)
+  simplex(built_density): E = 9 (cached)
+  simplex(LST): E = 3 (cached)
+
+Saved: outputs/gccm/sensitivity/tau/tau1/simplex_selection.csv
+Saved: outputs/gccm/sensitivity/tau/tau1/simplex_full.csv
+
+=== Step 2: GCCM analysis ===
+
+--- DEM <-> LST ---
+  E = c(4, 3)
+Computing: [====                                    ] 8%  (~5m1s remaining)       Computing: [=======                                 ] 17%  (~7m18s remaining)       Computing: [==========                              ] 25%  (~9m21s remaining)       Computing: [==============                          ] 33%  (~11m15s remaining)       Computing: [=================                       ] 42%  (~12m23s remaining)       Computing: [====================                    ] 50%  (~12m55s remaining)       Computing: [========================                ] 58%  (~12m35s remaining)       Computing: [===========================             ] 67%  (~11m9s remaining)       Computing: [==============================          ] 75%  (~9m1s remaining)       Computing: [==================================      ] 83%  (~6m29s remaining)       Computing: [=====================================   ] 92%  (~3m25s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~4m36s remaining)       Computing: [=======                                 ] 17%  (~6m25s remaining)       Computing: [==========                              ] 25%  (~8m12s remaining)       Computing: [==============                          ] 33%  (~9m44s remaining)       Computing: [=================                       ] 42%  (~10m43s remaining)       Computing: [====================                    ] 50%  (~11m5s remaining)       Computing: [========================                ] 58%  (~11m13s remaining)       Computing: [===========================             ] 67%  (~9m56s remaining)       Computing: [==============================          ] 75%  (~8m2s remaining)       Computing: [==================================      ] 83%  (~5m48s remaining)       Computing: [=====================================   ] 92%  (~3m2s remaining)       Computing: [========================================] 100% (done)                         
+  DEM -> LST: rho = 0.438 (final)
+  LST -> DEM: rho = 0.506 (final)
+
+  Checkpointed: outputs/gccm/sensitivity/tau/tau1/checkpoints/gccm_DEM.rds
+--- BSI <-> LST ---
+  E = c(15, 3)
+Computing: [====                                    ] 8%  (~9m15s remaining)       Computing: [=======                                 ] 17%  (~14m33s remaining)       Computing: [==========                              ] 25%  (~19m42s remaining)       Computing: [==============                          ] 33%  (~23m52s remaining)       Computing: [=================                       ] 42%  (~26m41s remaining)       Computing: [====================                    ] 50%  (~27m44s remaining)       Computing: [========================                ] 58%  (~26m52s remaining)       Computing: [===========================             ] 67%  (~24m11s remaining)       Computing: [==============================          ] 75%  (~19m47s remaining)       Computing: [==================================      ] 83%  (~14m6s remaining)       Computing: [=====================================   ] 92%  (~7m22s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~4m36s remaining)       Computing: [=======                                 ] 17%  (~6m30s remaining)       Computing: [==========                              ] 25%  (~8m15s remaining)       Computing: [==============                          ] 33%  (~9m52s remaining)       Computing: [=================                       ] 42%  (~10m53s remaining)       Computing: [====================                    ] 50%  (~11m6s remaining)       Computing: [========================                ] 58%  (~10m41s remaining)       Computing: [===========================             ] 67%  (~9m30s remaining)       Computing: [==============================          ] 75%  (~7m43s remaining)       Computing: [==================================      ] 83%  (~5m31s remaining)       Computing: [=====================================   ] 92%  (~2m53s remaining)       Computing: [========================================] 100% (done)                         
+  BSI -> LST: rho = 0.715 (final)
+  LST -> BSI: rho = 0.798 (final)
+
+  Checkpointed: outputs/gccm/sensitivity/tau/tau1/checkpoints/gccm_BSI.rds
+--- built_density <-> LST ---
+  E = c(9, 3)
+Computing: [====                                    ] 8%  (~6m59s remaining)       Computing: [=======                                 ] 17%  (~10m32s remaining)       Computing: [==========                              ] 25%  (~14m2s remaining)       Computing: [==============                          ] 33%  (~17m3s remaining)       Computing: [=================                       ] 42%  (~19m0s remaining)       Computing: [====================                    ] 50%  (~19m19s remaining)       Computing: [========================                ] 58%  (~19m15s remaining)       Computing: [===========================             ] 67%  (~17m11s remaining)       Computing: [==============================          ] 75%  (~14m0s remaining)       Computing: [==================================      ] 83%  (~10m1s remaining)       Computing: [=====================================   ] 92%  (~5m14s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~4m36s remaining)       Computing: [=======                                 ] 17%  (~6m26s remaining)       Computing: [==========                              ] 25%  (~8m13s remaining)       Computing: [==============                          ] 33%  (~9m49s remaining)       Computing: [=================                       ] 42%  (~10m50s remaining)       Computing: [====================                    ] 50%  (~11m8s remaining)       Computing: [========================                ] 58%  (~10m56s remaining)       Computing: [===========================             ] 67%  (~9m43s remaining)       Computing: [==============================          ] 75%  (~7m55s remaining)       Computing: [==================================      ] 83%  (~5m41s remaining)       Computing: [=====================================   ] 92%  (~2m58s remaining)       Computing: [========================================] 100% (done)                         
+  built_density -> LST: rho = 0.493 (final)
+  LST -> built_density: rho = 0.502 (final)
+
+  Checkpointed: outputs/gccm/sensitivity/tau/tau1/checkpoints/gccm_built_density.rds
+
+Completed 3 / 3 predictors.
+
+=== Step 2b: Effective N (Clifford/Dutilleul) ===
+
+  DEM: N_eff = 83 (nominal = 2000, ratio = 0.042)
+  BSI: N_eff = 139 (nominal = 2000, ratio = 0.070)
+  built_density: N_eff = 77 (nominal = 2000, ratio = 0.038)
+
+=== Step 3: Build results with CIs ===
+
+Saved: outputs/gccm/sensitivity/tau/tau1/results.csv
+
+=== Step 4: Convergence plots ===
+
+Saved: outputs/gccm/sensitivity/tau/tau1/convergence.png
+
+=== GCCM Summary ===
+
+Predictor              N_eff pred>LST    p_fwd [        CI_fwd] LST>pred    p_rev [        CI_rev] K_fwd K_rev Direction
+------------------------------------------------------------------------------------------------------------------------ 
+DEM                       83   +0.438   0.0000 [+0.245, +0.597]   +0.506   0.0000 [+0.326, +0.650] +1.00 +1.00 both significant
+BSI                      139   +0.715   0.0000 [+0.622, +0.787]   +0.798   0.0000 [+0.728, +0.851] +1.00 +1.00 both significant
+built_density             77   +0.493   0.0000 [+0.302, +0.646]   +0.502   0.0000 [+0.313, +0.653] +1.00 +1.00 both significant
+
+Saved: outputs/gccm/sensitivity/tau/tau1/summary.csv
+
+=== Done ===
+
+========== tau = 3 ==========
+
+Warning message:
+package ‘spEDM’ was built under R version 4.3.3 
+terra 1.8.54
+Warning message:
+package ‘terra’ was built under R version 4.3.3 
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+Loading required package: fastmatrix
+Warning messages:
+1: package ‘SpatialPack’ was built under R version 4.3.3 
+2: package ‘fastmatrix’ was built under R version 4.3.3 
+=== GCCM Analysis ===
+
+Run label: agg5_tau3_E2-15_3pred
+Output:    outputs/gccm/sensitivity/tau/tau3
+tau = 3 (spatial lag ~ 450m at 5x aggregation)
+Loading raster: data/processed/ouaga_aligned_stack.tif 
+  Original: 10 bands, 892 x 991 pixels (30m)
+  Aggregated (x5): 179 x 199 pixels (150m)
+  Valid pixels: 24904 / 35621 (69.9%)
+  Library: 24904 pixels, Prediction: 2000 pixels
+
+=== Step 1: Simplex E-selection ===
+
+  simplex(DEM): E = 15 (rho = 0.995)
+  simplex(BSI): E = 15 (rho = 0.868)
+  simplex(built_density): E = 15 (rho = 0.909)
+  simplex(LST): E = 15 (rho = 0.911)
+  Checkpointed simplex results.
+
+Saved: outputs/gccm/sensitivity/tau/tau3/simplex_selection.csv
+Saved: outputs/gccm/sensitivity/tau/tau3/simplex_full.csv
+
+=== Step 2: GCCM analysis ===
+
+--- DEM <-> LST ---
+  E = c(15, 15)
+Computing: [====                                    ] 8%  (~9m1s remaining)       Computing: [=======                                 ] 17%  (~14m45s remaining)       Computing: [==========                              ] 25%  (~20m15s remaining)       Computing: [==============                          ] 33%  (~24m38s remaining)       Computing: [=================                       ] 42%  (~27m28s remaining)       Computing: [====================                    ] 50%  (~28m24s remaining)       Computing: [========================                ] 58%  (~27m28s remaining)       Computing: [===========================             ] 67%  (~24m43s remaining)       Computing: [==============================          ] 75%  (~20m12s remaining)       Computing: [==================================      ] 83%  (~14m31s remaining)       Computing: [=====================================   ] 92%  (~7m38s remaining)       Computing: [========================================] 100% (done)                         
+Computing: [====                                    ] 8%  (~9m16s remaining)       Computing: [=======                                 ] 17%  (~14m47s remaining)       Computing: [==========                              ] 25%  (~20m3s remaining)       Computing: [==============                          ] 33%  (~24m31s remaining)       Computing: [=================                       ] 42%  (~27m24s remaining)       Computing: [====================                    ] 50%  (~28m23s remaining)       Computing: [========================                ] 58%  (~27m41s remaining)       Computing: [===========================             ] 67%  (~24m40s remaining)       Computing: [==============================          ] 75%  (~20m10s remaining)       Computing: [==================================      ] 83%  (~14m34s remaining)       Computing: [=====================================   ] 92%  (~7m46s remaining)       Computing: [========================================] 100% (done)                         
+  DEM -> LST: rho = 0.767 (final)
+  LST -> DEM: rho = 0.653 (final)
+
+  Checkpointed: outputs/gccm/sensitivity/tau/tau3/checkpoints/gccm_DEM.rds
+--- BSI <-> LST ---
+  E = c(15, 15)
+Computing: [====                                    ] 8%  (~9m50s remaining)       WARNING: tau = 3 failed (exit code 15). Continuing.
+
+========== tau = 5 ==========
+
+Warning message:
+package ‘spEDM’ was built under R version 4.3.3 
+terra 1.8.54
+Warning message:
+package ‘terra’ was built under R version 4.3.3 
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+Loading required package: fastmatrix
+Warning messages:
+1: package ‘SpatialPack’ was built under R version 4.3.3 
+2: package ‘fastmatrix’ was built under R version 4.3.3 
+=== GCCM Analysis ===
+
+Run label: agg5_tau5_E2-15_3pred
+Output:    outputs/gccm/sensitivity/tau/tau5
+tau = 5 (spatial lag ~ 750m at 5x aggregation)
+Loading raster: data/processed/ouaga_aligned_stack.tif 
+  Original: 10 bands, 892 x 991 pixels (30m)
+  Aggregated (x5): 179 x 199 pixels (150m)
+  Valid pixels: 24904 / 35621 (69.9%)
+  Library: 24904 pixels, Prediction: 2000 pixels
+
+=== Step 1: Simplex E-selection ===
+
+  simplex(DEM): E = 12 (rho = 0.996)
+  simplex(BSI): E = 15 (rho = 0.868)
+  simplex(built_density): E = 14 (rho = 0.914)
+  simplex(LST): E = 15 (rho = 0.915)
+  Checkpointed simplex results.
+
+Saved: outputs/gccm/sensitivity/tau/tau5/simplex_selection.csv
+Saved: outputs/gccm/sensitivity/tau/tau5/simplex_full.csv
+
+=== Step 2: GCCM analysis ===
+
+--- DEM <-> LST ---
+  E = c(12, 15)
+Computing: [====                                    ] 8%  (~8m16s remaining)       Computing: [=======                                 ] 17%  (~13m15s remaining)       Computing: [==========                              ] 25%  (~18m6s remaining)       Computing: [==============                          ] 33%  (~22m26s remaining)       Computing: [=================                       ] 42%  (~27m23s remaining)       Computing: [====================                    ] 50%  (~29m9s remaining)       Computing: [========================                ] 58%  (~28m52s remaining)       Computing: [===========================             ] 67%  (~26m10s remaining)       Computing: [==============================          ] 75%  (~21m24s remaining)       Computing: [==================================      ] 83%  (~15m39s remaining)       Computing: [=====================================   ] 92%  (~8m26s remaining)       WARNING: tau = 5 failed (exit code 15). Continuing.
+tau = 10: results current for DEM, BSI, built_density, skipping.
+
+========== tau = 15 ==========
+
+Warning message:
+package ‘spEDM’ was built under R version 4.3.3 
+terra 1.8.54
+Warning message:
+package ‘terra’ was built under R version 4.3.3 
+Warning message:
+package ‘ggplot2’ was built under R version 4.3.3 
+Loading required package: fastmatrix
+Warning messages:
+1: package ‘SpatialPack’ was built under R version 4.3.3 
+2: package ‘fastmatrix’ was built under R version 4.3.3 
+=== GCCM Analysis ===
+
+Run label: agg5_tau15_E2-15_3pred
+Output:    outputs/gccm/sensitivity/tau/tau15
+tau = 15 (spatial lag ~ 2250m at 5x aggregation)
+Loading raster: data/processed/ouaga_aligned_stack.tif 
+  Original: 10 bands, 892 x 991 pixels (30m)
+  Aggregated (x5): 179 x 199 pixels (150m)
+  Valid pixels: 24904 / 35621 (69.9%)
+  Library: 24904 pixels, Prediction: 2000 pixels
+
+=== Step 1: Simplex E-selection ===
+
+  Loading from checkpoint...
+  simplex(DEM): E = 8 (cached)
+  simplex(BSI): E = 8 (cached)
+  simplex(built_density): E = 8 (cached)
+  simplex(LST): E = 8 (cached)
+
+Saved: outputs/gccm/sensitivity/tau/tau15/simplex_selection.csv
+Saved: outputs/gccm/sensitivity/tau/tau15/simplex_full.csv
+
+=== Step 2: GCCM analysis ===
+
+  Loaded 1 cached predictor(s): DEM
+
+--- DEM <-> LST --- (cached, rho = 0.672 / 0.597)
+--- BSI <-> LST ---
+  E = c(8, 8)
