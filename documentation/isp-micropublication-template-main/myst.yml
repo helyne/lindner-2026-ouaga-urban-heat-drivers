@@ -1,0 +1,76 @@
+version: 1
+extends:
+- https://raw.githubusercontent.com/impact-scholars/impact-scholars.github.io/v0.1.0/nexus.yml
+- https://raw.githubusercontent.com/impact-scholars/isp-actions-config/v0.1.0/isp-micropublication-2025.yml
+
+project:
+  # Uncomment and fill when published
+  # doi: 10.5281/zenodo.XXXXXXX
+  # date: YYYY-MM-DD
+  authors:
+  - name: Lindner, E.
+    affiliations:
+    - Heidelberg Institute of Global Health (HIGH), Heidelberg University Hospital, Heidelberg University, Germany
+    roles:
+    - Conceptualization
+    - Formal analysis
+    - Investigation
+    - Methodology
+    - Visualization
+    - Writing - original draft
+    - Writing - review & editing
+  - name: Adamson, H.
+    affiliations:
+    - Independent Researcher, Germany
+    roles:
+    - Conceptualization
+    - Data curation
+    - Formal analysis
+    - Investigation
+    - Methodology
+    - Software
+    - Visualization
+    - Writing - original draft
+    - Writing - review & editing
+  - name: Ajadi, S. A.
+    affiliations:
+    - University of Manchester, United Kingdom
+    roles:
+    - Formal analysis
+    - Investigation
+    - Visualization
+    - Writing - original draft
+    - Writing - review & editing
+  - name: Christa, S.
+    affiliations:
+    - School of Computing, MIT Art Design and Technology University, Pune, India
+    roles:
+    - Formal analysis
+    - Investigation
+    - Writing - original draft
+    - Writing - review & editing
+  - name: Hagan, D. F. T.
+    affiliations:
+    - Hydro-Climate Extremes Lab, Ghent University, Ghent, Belgium
+    roles:
+    - Supervision
+    - Writing - review & editing
+
+  toc:
+  - file: index.md
+
+  id: ouaga-urban-heat-drivers
+  title: 'Reversal of UHI Drivers in a Sahelian City: Low Built-Up Density Increases Heat in Ouagadougou'
+  short_title: UHI driver reversal in Ouagadougou
+  keywords:
+  - urban heat island
+  - Sahel
+  - causal inference
+  - machine learning
+  - remote sensing
+  github: https://github.com/impact-scholars/ouaga-urban-heat-drivers
+  bibliography:
+  - bib.bib
+  # downloads:
+  # - file: supplementary-material.zip
+  #   title: Supplementary Material
