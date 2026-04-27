@@ -15,6 +15,8 @@ notebooks/Distance_measures/            export-ignore
 notebooks/Heatwave/                     export-ignore
 notebooks/Hotspots/                     export-ignore
 notebooks/NDVI_NDBI_BSI/                export-ignore
+notebooks/reference/ouagadougou-shp-tutorial.ipynb  export-ignore
+notebooks/reference/shanghai_landsat_pipeline.ipynb  export-ignore
 
 # Documentation and presentations — not needed for reproduction
 CONTRIBUTING.md                         export-ignore
