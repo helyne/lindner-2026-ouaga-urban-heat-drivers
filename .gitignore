@@ -35,3 +35,9 @@ models/
 
 # Local environment files (never commit secrets)
 *.env
+
+# Python editable-install artifacts
+*.egg-info/
+
+# pytest cache
+.pytest_cache/
