@@ -17,21 +17,32 @@ cd "$REPO_ROOT"
 
 OUT="submission.zip"
 
+# `zip -u` returns exit code 12 ("nothing to do") when every listed file is
+# already up-to-date in the archive. Under `set -e` that aborts the script,
+# which silently truncated the bundle in past runs. This wrapper treats
+# exit-12 as success while still propagating real failures.
+add_to_zip() {
+    zip -u "$OUT" "$@" || [ $? -eq 12 ]
+}
+
 echo "Building $OUT ..."
 
 # Step 1: git archive (respects .gitattributes export-ignore)
 git archive -o "$OUT" HEAD
 
-# Step 2: Add the processed raster stack
-zip -u "$OUT" data/processed/ouaga_aligned_stack.tif
+# Step 2: Add the processed raster stack (data/ is gitignored, so the raster
+# is not in the git archive output)
+add_to_zip data/processed/ouaga_aligned_stack.tif
 
-# Step 3: Add GCCM results (CSVs only — notebooks regenerate the PNGs)
-zip -u "$OUT" \
+# Step 3: Add GCCM results (CSVs only — notebooks regenerate the PNGs).
+# These are tracked via git, so they are already in the archive; the
+# explicit zip -u is a safety net for the case where they're somehow not.
+add_to_zip \
     outputs/gccm/main_E3_tau1/results.csv \
     outputs/gccm/main_E3_tau1/summary.csv
 
-# Step 4: Add supplementary figures and tables
-zip -u "$OUT" \
+# Step 4: Add supplementary figures and tables (figures/* is gitignored)
+add_to_zip \
     figures/pub/supplementary/figS1_spatial_features.png \
     figures/pub/supplementary/figS2_methods_workflow.png \
     figures/pub/supplementary/figS3_heatwave_analysis.png \
