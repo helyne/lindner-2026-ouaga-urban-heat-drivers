@@ -120,6 +120,12 @@ Run the steps below in order. Each step depends on the outputs of the previous o
    ```
    Outputs: `figures/pub/gccm_convergence_tau1.png`, `figures/pub/gccm_asymmetry_tau1.png`
 
+6. **Supplementary figures and tables** — generates Figures S1–S4 plus the supplementary tables (model hyperparameters, test-set classification metrics):
+   ```bash
+   python scripts/generate_supplementary_figures.py
+   ```
+   Outputs to `figures/pub/supplementary/`. Requires `rsvg-convert` for the SVG-derived figures (Homebrew: `brew install librsvg`). The script also runs a sanity check that the regenerated test-set metrics match the values published in Table 4 of the paper, and exits non-zero on drift.
+
 ## Data access
 
 The processed raster stack and pre-fit ML models are archived on Zenodo:
