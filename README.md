@@ -20,7 +20,7 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
 
 - Python 3.11+
 - R >= 4.3 (for GCCM causal analysis only — see [`R/INSTALL.md`](R/INSTALL.md))
-- A [Google Earth Engine](https://earthengine.google.com/) account (free for research use). See the [GEE access guide](https://developers.google.com/earth-engine/guides/access) and [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for setup instructions.
+- A [Google Earth Engine](https://earthengine.google.com/) account — **only required if re-running the GEE processing pipeline (Step 1 of [Reproducing the paper](#reproducing-the-paper)) from scratch.** Most reviewers can skip this; the pre-processed raster is available on Zenodo (see [Data access](#data-access)). If needed, free for research use — see the [GEE access guide](https://developers.google.com/earth-engine/guides/access) and [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for setup.
 
 ### Setup
 
@@ -38,13 +38,13 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
    ```
    This installs the project in editable mode (registers `src/` as an importable package) and pulls all dependencies pinned in `requirements.txt`. To also install development dependencies (e.g. `pytest` for running the test suite), use `pip install -e ".[dev]"` instead.
 
-3. Authenticate with Google Earth Engine:
+3. Download the archived raster and pre-fit models from Zenodo — see [Data access](#data-access) below. This is the standard reviewer path and avoids the GEE pipeline entirely.
+
+4. *(Only if re-running the GEE pipeline from scratch — Step 1 of [Reproducing the paper](#reproducing-the-paper))* Authenticate with Google Earth Engine:
    ```bash
    earthengine authenticate
    ```
    Then initialize with your GEE cloud project ID. See [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for a detailed walkthrough if this is your first time using GEE.
-
-4. Download archived data and pre-fit models. See [Data access](#data-access) below.
 
 ### Project structure
 
@@ -52,22 +52,14 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
 config/
   processing.yaml    # All pipeline parameters (CRS, scale, dates, thresholds)
 
-src/                 # Reusable Python library code (imported by notebooks/scripts)
-  data.py            #   Configuration loading, raster-to-DataFrame conversion
-  pipeline.py        #   GEE feature engineering, stacking, and download
+data/
+  raw/               # Input data (shapefiles, boundary) — treat as read-only
+  processed/         # Pipeline outputs (raster stack) — reproducible from raw + code
 
-R/                   # GCCM causal analysis (R scripts)
-  gccm_config.R      #   Shared config (predictors, parameters, paths)
-  gccm_analysis.R    #   Main GCCM analysis script
-  INSTALL.md         #   R dependency installation instructions
-renv.lock, renv/     # R package versions pinned via renv (companion to R/)
-
-scripts/             # Standalone executables (publication figure generation, etc.)
-  build_submission_zip.sh           # Builds the self-contained submission archive
-  figure_style.py                   # Shared matplotlib styling and GCCM data paths
-  make_gccm_convergence_pub.py      # Publication convergence figure
-  make_gccm_asymmetry_pub.py        # Publication asymmetry figure
-  generate_supplementary_figures.py # Supplementary figures S1–S4 + tables
+figures/             # Generated figures
+  pub/               # Publication-bound figures (main + supplementary/)
+  *.svg              # Tracked vector figures (methods workflow, heatwave example)
+  gccm_explainer_*.png  # Tracked methodology explainer diagrams
 
 notebooks/           # Analysis notebooks
   01_processing_pipeline  # GEE → aligned raster stack
@@ -83,16 +75,25 @@ notebooks/           # Analysis notebooks
   # documenting the reasoning behind choices in src/pipeline.py. See notebooks/README.md.
 
 outputs/             # Analysis results
-  gccm/main_E3_tau1/ #   The canonical publication GCCM run (CSVs + R checkpoints)
+  gccm/main_E3_tau1/ # The canonical publication GCCM run (CSVs + R checkpoints)
 
-figures/             # Generated figures
-  pub/               #   Publication-bound figures (main + supplementary/)
-  *.svg              #   Tracked vector figures (methods workflow, heatwave example)
-  gccm_explainer_*.png # Tracked methodology explainer diagrams
+R/                   # GCCM causal analysis (R scripts)
+  gccm_config.R      # Shared config (predictors, parameters, paths)
+  gccm_analysis.R    # Main GCCM analysis script
+  INSTALL.md         # R dependency installation instructions
 
-data/
-  raw/               #   Input data (shapefiles, boundary) — treat as read-only
-  processed/         #   Pipeline outputs (raster stack) — reproducible from raw + code
+renv.lock, renv/     # R package versions pinned via renv (companion to R/)
+
+scripts/             # Standalone executables (publication figure generation, etc.)
+  build_submission_zip.sh           # Builds the self-contained submission archive
+  figure_style.py                   # Shared matplotlib styling and GCCM data paths
+  make_gccm_convergence_pub.py      # Publication convergence figure
+  make_gccm_asymmetry_pub.py        # Publication asymmetry figure
+  generate_supplementary_figures.py # Supplementary figures S1–S4 + tables
+
+src/                 # Reusable Python library code (imported by notebooks/scripts)
+  data.py            # Configuration loading, raster-to-DataFrame conversion
+  pipeline.py        # GEE feature engineering, stacking, and download
 
 tests/               # Pytest smoke tests for data loading and model training
 ```
