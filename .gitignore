@@ -7,6 +7,8 @@ figures/*
 !figures/*.svg
 !figures/pub/
 !figures/pub/**
+# Don't re-include macOS junk inside figures/pub/
+figures/pub/**/.DS_Store
 # Explainer figures referenced by docs/methods/gccm_explainer.md
 !figures/gccm_explainer_asymmetry.png
 !figures/gccm_explainer_convergence.png
