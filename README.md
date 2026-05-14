@@ -26,7 +26,7 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
 
 1. Clone the repository:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/helyne/ouaga-urban-heat-drivers.git
    cd ouaga-urban-heat-drivers
    ```
 
@@ -36,7 +36,7 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
    source .venv/bin/activate   # On Windows: .venv\Scripts\activate
    pip install -e .
    ```
-   This installs the project in editable mode (registers `src/` as an importable package) and pulls all dependencies pinned in `requirements.txt`.
+   This installs the project in editable mode (registers `src/` as an importable package) and pulls all dependencies pinned in `requirements.txt`. To also install development dependencies (e.g. `pytest` for running the test suite), use `pip install -e ".[dev]"` instead.
 
 3. Authenticate with Google Earth Engine:
    ```bash
@@ -52,7 +52,7 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
 config/
   processing.yaml    # All pipeline parameters (CRS, scale, dates, thresholds)
 
-src/                 # Reusable Python modules
+src/                 # Reusable Python library code (imported by notebooks/scripts)
   data.py            #   Configuration loading, raster-to-DataFrame conversion
   pipeline.py        #   GEE feature engineering, stacking, and download
 
@@ -60,17 +60,49 @@ R/                   # GCCM causal analysis (R scripts)
   gccm_config.R      #   Shared config (predictors, parameters, paths)
   gccm_analysis.R    #   Main GCCM analysis script
   INSTALL.md         #   R dependency installation instructions
+renv.lock, renv/     # R package versions pinned via renv (companion to R/)
 
-notebooks/           # Analysis notebooks (run in order)
+scripts/             # Standalone executables (publication figure generation, etc.)
+  build_submission_zip.sh           # Builds the self-contained submission archive
+  figure_style.py                   # Shared matplotlib styling and GCCM data paths
+  make_gccm_convergence_pub.py      # Publication convergence figure
+  make_gccm_asymmetry_pub.py        # Publication asymmetry figure
+  generate_supplementary_figures.py # Supplementary figures S1–S4 + tables
+
+notebooks/           # Analysis notebooks
   01_processing_pipeline  # GEE → aligned raster stack
-  02_hotspot_detection    # LST map figure
+  02_eda                  # Exploratory data analysis
+  02_hotspot_detection    # LST hotspot map
   03_models               # ML models, SHAP, susceptibility maps
   04_causal_analysis      # GCCM convergence + asymmetry figures
+  Heatwave/               # ERA5 daily temperature retrieval + 2024 Ouaga case study
+  reference/GEE_setup.ipynb  # First-time GEE setup walkthrough
+  README.md               # Explains canonical vs. methodology-exploration notebooks
+  # Plus methodology exploration notebooks (DEM/, Distance_measures/, Hotspots/,
+  # NDVI_NDBI_BSI/, models.ipynb, 00_quick_start.ipynb, download_individual_bands.ipynb)
+  # documenting the reasoning behind choices in src/pipeline.py. See notebooks/README.md.
+
+outputs/             # Analysis results
+  gccm/main_E3_tau1/ #   The canonical publication GCCM run (CSVs + R checkpoints)
+
+figures/             # Generated figures
+  pub/               #   Publication-bound figures (main + supplementary/)
+  *.svg              #   Tracked vector figures (methods workflow, heatwave example)
+  gccm_explainer_*.png # Tracked methodology explainer diagrams
 
 data/
   raw/               #   Input data (shapefiles, boundary) — treat as read-only
   processed/         #   Pipeline outputs (raster stack) — reproducible from raw + code
+
+tests/               # Pytest smoke tests for data loading and model training
 ```
+
+The methodology exploration notebooks under `notebooks/` (`DEM/`, `Distance_measures/`,
+`Hotspots/hotspots_detection.ipynb`, `models.ipynb`, `NDVI_NDBI_BSI/`, etc.) document
+earlier exploration and the reasoning behind choices in `src/pipeline.py`. They are
+kept in the public repo for reviewers and collaborators who want to see how decisions
+were made, but are excluded from the Zenodo publication snapshot. See
+[`notebooks/README.md`](notebooks/README.md) for details.
 
 ### Loading the data
 
@@ -98,7 +130,7 @@ Run the steps below in order. Each step depends on the outputs of the previous o
    ```bash
    jupyter notebook notebooks/02_hotspot_detection.ipynb
    ```
-   Requires a GEE account. Outputs: `figures/pub/lst_hotspot_map.png`
+   Reads the processed raster. Generates (to `figures/pub/`, not committed): `lst_hotspot_map.png`.
 
 3. **ML models and SHAP** — trains XGBoost/RF/SVM, generates SHAP and susceptibility figures:
    ```bash
@@ -106,7 +138,7 @@ Run the steps below in order. Each step depends on the outputs of the previous o
    ```
    By default, the notebook runs in `MODEL_MODE = "load"` and reads the pre-fit pickled models from `models/Hotspotters_Models.zip` (download from Zenodo — see [Data access](#data-access)). This reproduces the exact published numbers in seconds. To retrain from scratch with the same hyperparameters, set `MODEL_MODE = "manual"` (~2 min).
 
-   Outputs: `figures/pub/shap_*.png`, `figures/pub/susceptibility_maps.png`
+   Generates (to `figures/pub/`, not committed): `shap_bar_importance.png`, `shap_beeswarm.png`, `susceptibility_maps.png`.
 
 4. **GCCM causal analysis** — runs the Geographical Convergent Cross-Mapping in R:
    ```bash
@@ -125,6 +157,17 @@ Run the steps below in order. Each step depends on the outputs of the previous o
    python scripts/generate_supplementary_figures.py
    ```
    Outputs to `figures/pub/supplementary/`. Requires `rsvg-convert` for the SVG-derived figures (Homebrew: `brew install librsvg`). The script also runs a sanity check that the regenerated test-set metrics match the values published in Table 4 of the paper, and exits non-zero on drift.
+
+## Tests
+
+A small `pytest` smoke-test suite verifies that data loading and model training behave correctly on synthetic inputs:
+
+```bash
+pip install -e ".[dev]"   # if not already installed
+pytest tests/ -v
+```
+
+Expect 7 tests to pass in under a minute. These are smoke tests covering `src.data` (config loading and raster-to-DataFrame conversion) and basic XGBoost / Random Forest / SVM training paths.
 
 ## Data access
 
@@ -146,7 +189,7 @@ This produces `models/xgb_model.pkl`, `models/rf_model.pkl`, and `models/svm_mod
 
 The raster is also fully regenerable from Step 1 (GEE) — see [`data/README.md`](data/README.md) for full data sources and provenance. All input data sources are open-access.
 
-**Code archive:** This codebase is archived on Zenodo at _DOI pending_. Cite this DOI when referencing the analysis code.
+**Code archive:** This codebase is openly available at <https://github.com/helyne/ouaga-urban-heat-drivers>.
 
 ## Research question/objective
 
@@ -156,9 +199,7 @@ The raster is also fully regenerable from Step 1 (GEE) — see [`data/README.md`
 
 ## Background/Motivation
 
-This comparative study replicates the methodology of the Da Nang study in Vietnam and applies it to Ouagadougou, Burkina Faso, to investigate urban heat hotspots in a Sahelian urban context. Specifically, it aims to evaluate the effectiveness of machine learning models in identifying hotspots during heatwave events, determine the most influential environmental and urban factors driving hotspot formation, and directly compare these results with those from Da Nang to evaluate which patterns are consistent and which differ due to Ouagadougou's specific climate and urban structure.
-
-The study is modeled after and builds upon the work by Hoang et al. (2025).
+This comparative study adapts the methodology of Hoang et al. (2025) — originally applied to Da Nang, Vietnam — and applies it to Ouagadougou, Burkina Faso, to investigate urban heat hotspots in a Sahelian urban context. The framework evaluates the effectiveness of machine learning models in identifying hotspots during heatwave events, identifies the most influential environmental and urban factors driving hotspot formation, and contrasts the results with the humid-tropical Da Nang setting to highlight which patterns are climate-dependent.
 
 Hoang, ND., Huynh, TC. & Bui, DT. An interpretable machine learning framework for mapping hotspots and identifying their driving factors in urban environments during heat waves. Environ Monit Assess 197, 1017 (2025). https://doi.org/10.1007/s10661-025-14461-0
 
@@ -177,29 +218,25 @@ See [`data/README.md`](data/README.md) for full details on data sources, licensi
 | OpenStreetMap | Vector | Distance to roads |
 
 
-## Methods/Approach
+## Methods
 
-### The study area
-We selected the capital city of Ouagadougou, Burkina Faso, a major urban center in West Africa's Sahel region, as our comparative study area. Crucially, Ouagadougou shares key characteristics with Da Nang (e.g. similar latitude, population size, and a significant March-May 2024 heatwave), while representing a starkly different environment. Unlike coastal Da Nang's humid climate, Ouagadougou's semi-arid inland conditions create a climatic contrast, allowing us to investigate which urban heat drivers are universal or context-specific. This comparison can reveal how local climate modulates urban heat island effects.
+### Study area
+Ouagadougou, capital of Burkina Faso, is a major urban center in West Africa's Sahel region. Compared to coastal Da Nang (Hoang et al. 2025) — whose methodology this study adapts — Ouagadougou's semi-arid inland conditions provide a contrasting setting for testing the universality of urban heat island drivers.
 
-### Research material
-To characterize heatwave dynamics and intra-urban variations in temperature, we collect and preprocess a combination of remote sensing and vector-based spatial datasets (summarised in Table 1). We primarily use satellite imagery from Landsat 8 and Sentinel-2, digital elevation data from Copernicus, and road network data extracted from OpenStreetMap.
+### Data and processing
+Land surface temperature (LST) was derived from Landsat 8/9 Collection 2 Level-2 Surface Temperature products, composited across the March–May hot season from 2022 to 2024. Scenes exceeding 20% cloud cover were excluded, per-pixel cloud and shadow masking was applied, and physically implausible values outside 20–60°C were rejected. A pixel-wise median composite was computed at 30m resolution.
 
-Table 1 - Research material and data sources
+Thermal hotspots were defined as pixels exceeding the study-area mean by more than one standard deviation (LST > μ + 1σ), yielding a binary classification of hotspot (1) versus non-hotspot (0). Of the 613,847 valid pixels covering the Ouagadougou administrative boundary, approximately 10.3% were classified as hotspots.
 
-Surface reflectance and surface temperature products (30 m) from Landsat-8 and Sentinel-2 provide fine-scale spatial information of both land surface temperature (LST) and land use land cover (LULC) indices, including urban, vegetation, water, and soil indices (e.g. NDBI, NDVI, MNDWI, and Bare Soil Index). Topographical features are derived from the Copernicus global digital elevation model (DEM) at a resolution of 30m. OpenStreetMap (OSM) vector data is used for urban infrastructure features, such as proximity to roads and water bodies. Global Human Settlement Layer (GHSL) datasets are used for population metrics.
+Eight predictor variables were compiled from spectrally and temporally independent datasets (see [Data](#data) table above): NDVI, NDBI, BSI, DEM, distance to water, distance to roads, built-up density, and green space density. All layers were resampled to a common 30m UTM Zone 30N grid.
 
-### The analysis methods
-We will apply a machine learning approach to examine the precise spatial drivers of intra-urban heat patterns during extreme events and then test whether these drivers are consistent across two different urban environments. The study will replicate the XGBoost and SHAP analysis framework from Hoang et al. (2025) for Da Nang, Vietnam in 2024, and adapt it for the novel context of Ouagadougou, Burkina Faso, a rapidly urbanizing Sahelian city that also experienced severe heatwave events in 2024. We will test the generalizability of urban heat drivers by comparing the results from Ouagadougou with the published results from Da Nang, Vietnam. To build upon the work by Hoang, a causal model with pre-hoc weight assignment will be implemented before the training as in Yeboah et al. (2025), providing greater explanatory power to the study.
+### Modelling and feature importance
+Three binary classifiers — XGBoost, Random Forest, and a Support Vector Machine (SVM) with RBF kernel — were trained to classify hotspot occurrence using all eight predictors and the full set of 613,847 valid pixels. Data were randomly split 70/30 train/test (following Hoang et al. 2025). Hyperparameters were selected via five-fold cross-validated grid search. Models were evaluated using accuracy, precision, recall, F1, and Cohen's κ.
 
-General method details:
-- Heatwave events defined via ETCCDI indices (TX90p, WSDI).
-- Anomalies computed vs. rural reference areas.
-- Predictors: NDVI, NDBI, MNDWI, slope/elevation, green density, built-up share, distance to roads/water, population.
-- Models: XGBoost + RF (stratified cross-validation, SHAP interpretability); pre-hoc causal model with weight assignment.
+To identify which predictors most strongly drive hotspot classification, feature importance was quantified using SHapley Additive exPlanations (SHAP) via TreeExplainer on the held-out test set, providing both global importance rankings and directional insights into how each predictor drives hotspot probability.
 
-### Heat risk map
-To test mitigation policies, we will digitally alter Ouagadougou's input maps - for example, artificially increasing the 'green space density' value by 10% in the city center - and then feed this modified map into our already-trained model to generate a new heat risk forecast. Comparing this new forecast to the original map will show us exactly how much and where the heat risk would be modified by an intervention.
+### Causal inference
+To test whether SHAP-identified predictors causally influence LST or merely co-vary with it, we applied Geographical Convergent Cross Mapping (GCCM; Gao et al. 2023) as implemented in the `spEDM` R package. For each predictor–LST pair, bidirectional GCCM was run on the 150m-aggregated raster with embedding dimension E = 3 and spatial lag τ = 1 (block scale), using 2,000 randomly sampled prediction points. Causal direction was determined by three criteria: (1) convergence (Kendall's τ > 0 for cross-map skill ρ vs. library size), (2) significance at the largest library size (p < 0.05), and (3) non-overlapping 95% Fisher-z confidence intervals between forward and reverse directions.
 
 
 ## Literature
@@ -207,8 +244,6 @@ To test mitigation policies, we will digitally alter Ouagadougou's input maps - 
 Gao, B., Yang, J., Chen, Z. et al. Causal inference from cross-sectional earth system data with geographical convergent cross mapping. Nat Commun 14, 5875 (2023). https://doi.org/10.1038/s41467-023-41619-6
 
 Hoang, ND., Huynh, TC. & Bui, DT. An interpretable machine learning framework for mapping hotspots and identifying their driving factors in urban environments during heat waves. Environ Monit Assess 197, 1017 (2025). https://doi.org/10.1007/s10661-025-14461-0
-
-Yeboah, E., Wang, G., Hagan, D.F.T. et al. A causal investigation of land use and land cover change on emerging urban heat island footprints in a mid-latitude region. Environ Dev Sustain (2025). https://doi.org/10.1007/s10668-025-06328-8
 
 
 ## Acknowledgements
