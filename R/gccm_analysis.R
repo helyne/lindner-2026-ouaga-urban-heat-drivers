@@ -253,7 +253,6 @@ cat(sprintf("  Original: %d bands, %d x %d pixels (%.0fm)\n",
 #   - Density variables (built_density, green_density): already 90m neighborhood
 #     means from the pipeline, so 5x aggregation produces ~450m effective means.
 # These are second-order effects on rho magnitude, not on causal direction.
-# TODO: Run sensitivity check at AGG_FACTOR=3 (90m) to confirm directions hold.
 stack_agg <- aggregate(stack, fact = AGG_FACTOR, fun = "mean", na.rm = TRUE)
 
 cat(sprintf("  Aggregated (x%d): %d x %d pixels (%.0fm)\n",
