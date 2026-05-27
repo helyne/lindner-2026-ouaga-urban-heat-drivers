@@ -26,12 +26,13 @@ data/raw/*
 !data/raw/Shapefile Ouaga/
 
 # scripts
-scripts/
+scripts/*
 !scripts/build_submission_zip.sh
 !scripts/figure_style.py
 !scripts/generate_supplementary_figures.py
 !scripts/make_gccm_asymmetry_pub.py
 !scripts/make_gccm_convergence_pub.py
+!scripts/regenerate_panels.sh
 
 # outputs/gccm/ — only the canonical publication run is tracked
 outputs/gccm/*

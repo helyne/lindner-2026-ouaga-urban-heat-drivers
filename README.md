@@ -14,6 +14,39 @@
 
 Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of surface heating remain unknown. Here we combine machine-learning classification (XGBoost, Random Forest, SVM) with spatial causal inference to disentangle correlation from causation among hotspot drivers in Ouagadougou, Burkina Faso. XGBoost generalised best (F1 = 0.70, κ = 0.67) while SHAP analysis identified built-up density as the dominant predictor. Geographical convergent cross-mapping confirmed it as a unidirectional cause of surface temperature, while spectral indices showed only bidirectional coupling despite strong correlations. Opposite to humid tropical cities, lower built-up density increases hotspot risk due to exposed bare soil. These findings point to compact urban form as a heat mitigation strategy.
 
+## Quick reproduction (no Google Earth Engine account required)
+
+Reviewers and readers who want to reproduce the published figures without re-running the satellite-imagery pipeline can do so in roughly 10 minutes from a clean checkout. The processed 30 m raster stack and the pre-fit ML models are archived on Zenodo ([10.5281/zenodo.19835805](https://doi.org/10.5281/zenodo.19835805)) — no GEE access required.
+
+```bash
+# 1. Clone and install the Python environment
+git clone https://github.com/helyne/ouaga-urban-heat-drivers.git
+cd ouaga-urban-heat-drivers
+python -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
+pip install -e .
+
+# 2. Download the processed raster + pre-fit models from Zenodo (https://doi.org/10.5281/zenodo.19835805)
+#    Place ouaga_aligned_stack.tif at data/processed/
+#    Place Hotspotters_Models.zip at models/ and unzip in place
+mkdir -p data/processed models
+# (download both files manually from the Zenodo page above, then:)
+cd models && unzip Hotspotters_Models.zip && cd ..
+
+# 3. Install R + GCCM packages (only needed to regenerate the GCCM panels)
+#    See R/INSTALL.md for details. The fast path:
+Rscript -e "install.packages('renv'); renv::restore()"
+
+# 4. Regenerate all figure panels (the composite Figure 1 is assembled externally — see note below)
+bash scripts/regenerate_panels.sh
+```
+
+The script in step 4 runs the GCCM analysis in R and then regenerates every panel-level PNG used in the paper (LST hotspot map, SHAP plots, susceptibility maps, GCCM convergence + asymmetry, supplementary figures S1–S4 and tables). Outputs land in `figures/pub/` and `figures/pub/supplementary/`.
+
+> **Note on the composite Figure 1**
+> The main figure in the publication is a multi-panel composite assembled in slideware (PowerPoint / Keynote / Affinity) from the individual panel PNGs listed above. The PNG panels themselves are fully reproducible from code; the composition step is manual. The supplementary methods workflow figure follows the same pattern (an SVG composed by hand, rasterised by `scripts/generate_supplementary_figures.py`).
+
+For a step-by-step walkthrough of each notebook and full setup options, see the [Getting started](#getting-started) and [Reproducing the paper](#reproducing-the-paper) sections below.
+
 ## Getting started
 
 ### Prerequisites
@@ -45,6 +78,12 @@ Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of 
    earthengine authenticate
    ```
    Then initialize with your GEE cloud project ID. See [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for a detailed walkthrough if this is your first time using GEE. You will also need to edit `config/processing.yaml` (the `ee_project`, `ee_boundary_asset`, and `roads_asset` fields at the bottom) to point at your own GEE project and uploaded assets.
+
+5. *(Required for the GCCM causal analysis — Step 4 of [Reproducing the paper](#reproducing-the-paper))* Install the R packages. The fast path is `renv`, which restores the exact versions used in the analysis:
+   ```bash
+   Rscript -e "install.packages('renv'); renv::restore()"
+   ```
+   See [`R/INSTALL.md`](R/INSTALL.md) for alternatives (manual install of the five top-level packages) and version notes.
 
 ### Project structure
 

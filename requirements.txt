@@ -26,3 +26,6 @@ localtileserver==0.10.7
 
 # Configuration
 pyyaml==6.0.3
+
+# Notebook environment
+jupyterlab==4.5.3
