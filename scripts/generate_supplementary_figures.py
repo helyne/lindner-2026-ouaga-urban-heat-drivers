@@ -16,9 +16,9 @@ Produces six artifacts under ``figures/pub/supplementary/``:
   multi-panel heatwave analysis composite at
   ``figures/ouagadougou-heatwaves-example-days-wide.svg``. Like the methods
   diagram, the SVG is a hand-composed multi-panel layout. The underlying
-  per-panel analyses live in ``notebooks/Heatwave/Heatwaves_2024_Ouaga.ipynb``
+  per-panel analyses live in ``notebooks/Heatwave/Heatwave_Analysis_Ouagadougou.ipynb``
   (which ships in the submission alongside the source data
-  ``Ouagadougou_1991_2024_daily.nc``). Whitespace trimmed.
+  ``Ouagadougou_2001_2024_daily_tmax.nc``). Whitespace trimmed.
 * ``figS4_pearson_correlation.png`` — pairwise Pearson correlation among the
   nine continuous features, computed from the same dataset notebook 03 uses.
 * ``hyperparameters.json`` — selected hyperparameters per model, read directly

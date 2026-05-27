@@ -23,6 +23,6 @@ These notebooks document earlier methodology exploration and the reasoning behin
 - `DEM/download_preprocess_DEM.ipynb` — early DEM acquisition and preprocessing
 - `Distance_measures/road_water_distance_measures.ipynb` — distance-to-roads and distance-to-water method validation (`fastDistanceTransform` comparison)
 - `Hotspots/hotspots_detection.ipynb` — early hotspot detection prototype
-- `NDVI_NDBI_BSI/NDVI_NDBI_BSI_Sentinel2_updated.ipynb` — early spectral indices computation in Python
+- `NDVI_NDBI_BSI/NDVI_NDBI_BSI_Sentinel2_Ouagadougou.ipynb` — early spectral indices computation in Python
 - `download_individual_bands.ipynb` — early per-band GEE acquisition
 - `models.ipynb` — replication of Hoang et al. 2025 (predecessor to `03_models.ipynb`)
