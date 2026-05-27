@@ -1,5 +1,5 @@
 ---
-title: "Reversal of UHI Drivers in a Sahelian City: Low Built-Up Density Increases Heat in Ouagadougou"
+title: "Low Built-Up Density is a Key Driver of Surface Temperatures in the Sahel"
 abstract: |
   Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of surface heating remain unknown. Here we combine machine-learning classification (XGBoost, Random Forest, SVM) with spatial causal inference to disentangle correlation from causation among hotspot drivers in Ouagadougou, Burkina Faso. XGBoost generalised best (F1 = 0.70, κ = 0.67) while SHAP analysis identified built-up density as the dominant predictor. Geographical convergent cross-mapping confirmed it as a unidirectional cause of surface temperature, while spectral indices showed only bidirectional coupling despite strong correlations. Opposite to humid tropical cities, lower built-up density increases hotspot risk due to exposed bare soil. These findings point to compact urban form as a heat mitigation strategy.
 acknowledgments: |
@@ -20,7 +20,7 @@ This study maps thermal hotspots in Ouagadougou during the 2022-2024 hot season 
 
 Land surface temperature (LST) was derived from Landsat 8 and 9 Collection 2 Level-2 Surface Temperature products, composited across the March-May hot season from 2022 to 2024. Scenes exceeding 20% cloud cover were excluded, per-pixel cloud and shadow masking was applied, and physically implausible values outside 20-60°C were rejected; a pixel-wise median composite was computed at 30m resolution. 
 
-Thermal hotspots were defined as pixels exceeding the study-area mean by more than one standard deviation (LST > μ + 1σ, [@Weng2004]), yielding a binary classification of hotspot (1) versus non-hotspot (0). This relative threshold captures locally anomalous heating. Of the 613,847 valid pixels covering the Ouagadougou administrative boundary, approximately 10.3% were classified as hotspots. 
+We define **intra-urban surface heat hotspots** — distinct from the classical urban heat island (UHI) concept, which compares urban to surrounding rural temperatures — as pixels exceeding the study-area mean by more than one standard deviation (LST > μ + 1σ, [@Weng2004]), yielding a binary classification of hotspot (1) versus non-hotspot (0). This relative threshold captures locally anomalous heating *within* the city rather than the city-versus-rural contrast that defines UHI. Of the 613,847 valid pixels covering the Ouagadougou administrative boundary, approximately 10.3% were classified as intra-urban heat hotspots (hereafter "hotspots"). 
 
 Eight predictor variables were compiled from spectrally and temporally independent datasets to avoid analytical circularity with the Landsat-derived target (Table 1). All layers were resampled to a common 30m UTM Zone 30N grid in a final step. 
 
@@ -48,7 +48,7 @@ Three binary classifiers were trained on all predictors to classify hotspot occu
 
 Hyperparameters were selected via five-fold cross-validated grid search (GridSearchCV, scoring = accuracy, n_jobs = -1). Models were evaluated on both training and test sets using accuracy, precision, recall, F1 score, and Cohen’s Kappa. The model with the highest generalization performance was selected for spatial prediction and interpretability analysis. 
 
-To identify which predictors most strongly drive hotspot classification, feature importance was quantified using SHapley Additive exPlanations (SHAP; [@lundberg2017]) via TreeExplainer on the held-out test set. SHAP values decompose each prediction additively across features in a game-theoretic framework, providing both global importance rankings (mean |SHAP value|) and directional insights into how each predictor drives hotspot probability.
+To rank which predictors contribute most to the model's hotspot classifications, feature importance was quantified using SHapley Additive exPlanations (SHAP; [@lundberg2017]) via TreeExplainer on the held-out test set. SHAP values decompose each prediction additively across features in a game-theoretic framework, providing both global importance rankings (mean |SHAP value|) and directional insights into how each predictor relates to model-estimated hotspot probability. SHAP quantifies predictive contribution, not causation; the causal inference in the next section addresses directionality.
 
 ## Causal inference 
 
@@ -113,7 +113,7 @@ XGBoost achieved the highest testing performance (accuracy = 0.95, F1 = 0.70, Ka
 
 ## SHAP 
 
-SHAP analysis revealed built-up density as the dominant driver of hotspot formation, followed by distance to water, elevation and NDBI mean (|SHAP value|=2.15, 1.10, 1.08, respectively) ([Fig. 1B](#figure-main)). Lower values of built-up density and distance to water were associated with increased risk of hotspot risk, while higher values of elevation and NDBI were related to increased hotspot probability. 
+SHAP analysis identified built-up density as the dominant predictor of hotspot classification, followed by distance to water, elevation, and mean NDBI (|SHAP value| = 2.15, 1.10, 1.08, respectively) ([Fig. 1B](#figure-main)). Lower values of built-up density and distance to water were associated with increased hotspot probability, while higher values of elevation and NDBI were associated with increased hotspot probability. We reserve causal language for the GCCM-validated relationships reported in the next section; SHAP measures predictive contribution, not causation. 
 
 ```{figure} figure.png
 :name: figure-main
@@ -139,6 +139,12 @@ In contrast, the spectral indices that ranked highly in the ML model (NDBI, BSI,
 # Discussion 
 
 Hotspot formation during Ouagadougou's March-May 2024 heatwave season was dominated by built-up density, followed by distance to water, elevation, and NDBI. GCCM confirmed unidirectional causal influence for built-up density and green density driving LST, while NDBI and BSI showed bidirectional coupling. Applying the methodology by [@hoang2025] to semi-arid Ouagadougou revealed a climate-dependent reversal: sparse built-up cover increased hotspot risk, contrary to tropical Da Nang, Vietnam. In Ouagadougou, unbuilt land is predominantly bare soil with high solar absorptivity and negligible evapotranspiration [@Oke2017] [@Offerle2005], not the vegetated surfaces displaced by urbanisation in temperate climates. Denser construction reduces exposed ground through mutual shading [@Abedrabboh2025], while urban proximity to the central reservoir amplifies evaporative cooling [@Linden2011], reversing the typical UHI patterns observed in other climates [@hoang2025] [@yeboah2025]. Taken together, these results caution against generalising UHI frameworks across bioclimatic contexts and, in the context of Ouagadougou, point toward compact development and water body preservation as locally appropriate heat mitigation strategies for urban planners.
+
+# Limitations and scope of inference
+
+The intra-urban heat hotspot threshold (LST > μ + 1σ) is study-relative and not anchored to health-relevant exposure limits; sensitivity to alternative thresholds (e.g., fixed percentile or absolute temperature) is untested. The random pixel-level train-test split does not account for spatial autocorrelation among neighbouring pixels, so reported F1 and Cohen's κ likely overestimate spatial transferability. Hyperparameter selection via GridSearchCV used overall accuracy as the scoring criterion despite the 10.3% minority-class imbalance, which may have suboptimally weighted minority-class performance; class weighting and resampling strategies were not explored. The LST target is a three-year hot-season median composite, so predictor rankings may shift under interannual variability or heatwave-specific conditions not captured by seasonal aggregation.
+
+**Scope of the causal inference.** The GCCM directional results reported above are derived at the 150 m block (neighborhood) scale within the Ouagadougou administrative boundary. Within this scope — the spatial resolution at which the analysis was conducted — the unidirectional coupling from built-up density and green density to LST is supported by all three causal criteria (convergence, significance, and non-overlapping forward-vs-reverse 95% CIs). The directional asymmetry for built-up density is sensitive to embedding parameter choices, so the *magnitude* of the asymmetry (though not its existence) depends on the canonical configuration (E = 3, τ = 1, 150 m aggregation) chosen here. Generalization of the causal claim to coarser spatial scales (e.g., entire-city aggregates) or to other Sahelian cities requires additional analysis. The bare-soil mechanism proposed for the inverted built-up-density signal in Ouagadougou specifically — relative to humid tropical cities like Da Nang — may not transfer to semi-arid cities with different soil reflectance, albedo, or morphological characteristics.
 
 # Code and data availability
 

@@ -4,7 +4,7 @@ extends:
   - https://raw.githubusercontent.com/impact-scholars/isp-actions-config/v0.1.0/isp-micropublication-2025.yml
 
 project:
-  title: "Reversal of UHI Drivers in a Sahelian City: Low Built-Up Density Increases Heat in Ouagadougou"
+  title: "Low Built-Up Density is a Key Driver of Surface Temperatures in the Sahel"
 
   id: hotspotters-micropublication
 
