@@ -1,7 +1,7 @@
-# Low Built-Up Density is a Key Driver of Surface Temperatures in the Sahel
+# Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel
 
 Source repository for the Impact Scholars Program 2025–2026 micropublication
-*"Low Built-Up Density is a Key Driver of Surface Temperatures in the Sahel"*
+*"Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel"*
 by Lindner, Adamson, Ajadi, Christa, and Hagan.
 
 The rendered paper is built with [MyST Markdown](https://mystmd.org/) and

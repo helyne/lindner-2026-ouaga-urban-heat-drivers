@@ -4,7 +4,7 @@ extends:
   - https://raw.githubusercontent.com/impact-scholars/isp-actions-config/v0.1.0/isp-micropublication-2025.yml
 
 project:
-  title: "Low Built-Up Density is a Key Driver of Surface Temperatures in the Sahel"
+  title: "Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel"
 
   id: hotspotters-micropublication
 
