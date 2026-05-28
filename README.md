@@ -1,11 +1,10 @@
 # Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel
 
-Source repository for the Impact Scholars Program 2025–2026 micropublication
-*"Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel"*
-by Lindner, Adamson, Ajadi, Christa, and Hagan.
+This repository contains the Impact Scholars Program 2025–2026 micropublication *"Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel"* by Elisabeth Lindner, Helyne Adamson, Ajadi Sodiq Abayomi, Sharon Christa, and Daniel Fiifi Tawia Hagan.
 
-The rendered paper is built with [MyST Markdown](https://mystmd.org/) and
-deployed via the ISP `deploy-paper.yml` GitHub Action.
+**DOI:** *<TBD-g>*
+
+**Live site:** *<TBD>*
 
 ## Repository contents
 
@@ -19,19 +18,6 @@ deployed via the ISP `deploy-paper.yml` GitHub Action.
 | `environment.yml` | Conda environment for building the paper locally |
 | `analyses/` | Analysis codebase: notebooks, R/GCCM scripts, data pipeline, tests |
 
-## Building the paper locally
-
-```bash
-mamba env create -f environment.yml
-mamba activate isp-paper
-myst start            # live preview at http://localhost:3000
-myst build --html     # static build into _build/
-```
-
 ## Underlying analysis
 
-All notebooks, scripts, and reproducibility documentation for the analysis that
-produced the figure live in [`analyses/`](analyses/) within this repository.
-See [`analyses/README.md`](analyses/README.md) for the full setup walkthrough,
-including the Zenodo data-download path that reproduces every figure panel
-without a Google Earth Engine account.
+All notebooks, scripts, and reproducibility documentation for the analysis that produced the figure live in [`analyses/`](analyses/) within this repository. See [`analyses/README.md`](analyses/README.md) for the full setup walkthrough, including the Zenodo data-download path that reproduces every figure panel without a Google Earth Engine account.

@@ -1,22 +1,41 @@
-# Reversal of UHI Drivers in a Sahelian City: Low Built-Up Density Increases Heat in Ouagadougou
+# Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel
 
-## Authors
+> Analysis codebase for the Impact Scholars Program 2025–2026 micropublication of the same name. The rendered paper and Zenodo DOI links are in the [Citation](#citation) section below.
 
-**Elisabeth Lindner**¹, **Helyne Adamson**², **Ajadi Sodiq Abayomi**³, **Sharon Christa**⁴, **Daniel Fiifi Tawia Hagan**⁵
+## Citation
 
-¹ Heidelberg Institute of Global Health (HIGH), Heidelberg University Hospital, Heidelberg University, Germany
-² Independent Researcher, Germany
-³ University of Manchester, United Kingdom
-⁴ School of Computing, MIT Art Design and Technology University, Pune, India
-⁵ Hydro-Climate Extremes Lab, Ghent University, Ghent, Belgium
+> Lindner, E., Adamson, H., Ajadi, S. A., Christa, S., & Hagan, D. F. T. (2026). *Low Built-Up Density Emerges as a Key Driver of Heat Extremes over the Sahel*. Impact Scholars Program Micropublication. 
 
-## Abstract
+DOI: *<TBD — minted on publication>*
 
-Urban heat islands threaten fast-growing Sahelian cities, yet causal drivers of surface heating remain unknown. Here we combine machine-learning classification (XGBoost, Random Forest, SVM) with spatial causal inference to disentangle correlation from causation among hotspot drivers in Ouagadougou, Burkina Faso. XGBoost generalised best (F1 = 0.70, κ = 0.67) while SHAP analysis identified built-up density as the dominant predictor. Geographical convergent cross-mapping confirmed it as a unidirectional cause of surface temperature, while spectral indices showed only bidirectional coupling despite strong correlations. Opposite to humid tropical cities, lower built-up density increases hotspot risk due to exposed bare soil. These findings point to compact urban form as a heat mitigation strategy.
+A `CITATION.cff` will be added once the Zenodo DOI is minted.
+
+## Project Summary
+
+This project investigates what drives **intra-urban surface heat hotspots** in Ouagadougou, the capital of Burkina Faso — a fast-growing Sahelian city facing extreme heat during its March–May hot season. We combine satellite-derived land surface temperature (Landsat 8/9), spectral indices (Sentinel-2), and ancillary geospatial layers (DEM, distance to water and roads, built-up and green density from ESA WorldCover) to predict where hotspots emerge and to test which features causally drive them.
+
+Three machine-learning classifiers (XGBoost, Random Forest, SVM) are trained on the same predictor stack; the best-generalising model (XGBoost, F1 = 0.70, κ = 0.67) is then explained with SHAP for predictor importance, and the SHAP-highlighted predictors are passed to Geographical Convergent Cross-Mapping (GCCM) to test causal directionality against LST.
+
+**Headline finding.** In semi-arid Sahelian Ouagadougou, *lower* built-up density is associated with hotter surfaces — the opposite of what is observed in humid tropical cities. The mechanism is that low built-up density exposes bare soil with high solar absorptivity and negligible evapotranspiration, rather than displacing the cool vegetated land that drives the classical urban heat island. The reversal points to compact urban form and water-body preservation as climate-appropriate mitigation strategies for Sahelian urban planners.
+
+## Meet the Team!
+
+| Author | Affiliation | ORCID |
+|---|---|---|
+| **Elisabeth Lindner** | Heidelberg Institute of Global Health (HIGH), Heidelberg University Hospital, Heidelberg University, Germany | [0009-0004-7031-5080](https://orcid.org/0009-0004-7031-5080) |
+| **Helyne Adamson** | Independent Researcher, Germany | [0000-0002-3477-4296](https://orcid.org/0000-0002-3477-4296) |
+| **Ajadi Sodiq Abayomi** | University of Manchester, United Kingdom | [0000-0003-3275-1100](https://orcid.org/0000-0003-3275-1100) |
+| **Sharon Christa** | School of Computing, MIT Art Design and Technology University, Pune, India | [0000-0001-6717-2200](https://orcid.org/0000-0001-6717-2200) |
+| **Daniel Fiifi Tawia Hagan** | Hydro-Climate Extremes Lab, Ghent University, Ghent, Belgium | [0000-0003-3501-9783](https://orcid.org/0000-0003-3501-9783) |
+
+CRediT contributor roles for each author are recorded in the published paper's `myst.yml`.
 
 ## Quick reproduction (no Google Earth Engine account required)
 
-Reviewers and readers who want to reproduce the published figures without re-running the satellite-imagery pipeline can do so in roughly 10 minutes from a clean checkout. The processed 30 m raster stack and the pre-fit ML models are archived on Zenodo ([10.5281/zenodo.19835805](https://doi.org/10.5281/zenodo.19835805)) — no GEE access required.
+> [!IMPORTANT]
+> The processed 30 m raster stack and pre-fit ML models are archived on Zenodo ([10.5281/zenodo.19835805](https://doi.org/10.5281/zenodo.19835805)). GEE is only needed if you want to re-run the full satellite-imagery pipeline (Step 1 of [Reproducing the paper](#reproducing-the-paper)) from scratch.
+
+To reproduce the published figures follow the steps below.
 
 ```bash
 # 1. Clone and install the Python environment
@@ -42,8 +61,6 @@ bash scripts/regenerate_panels.sh
 
 The script in step 4 runs the GCCM analysis in R and then regenerates every panel-level PNG used in the paper (LST hotspot map, SHAP plots, susceptibility maps, GCCM convergence + asymmetry, supplementary figures S1–S4 and tables). Outputs land in `figures/pub/` and `figures/pub/supplementary/`.
 
-> **Note on the composite Figure 1**
-> The main figure in the publication is a multi-panel composite assembled in slideware (PowerPoint / Keynote / Affinity) from the individual panel PNGs listed above. The PNG panels themselves are fully reproducible from code; the composition step is manual. The supplementary methods workflow figure follows the same pattern (an SVG composed by hand, rasterised by `scripts/generate_supplementary_figures.py`).
 
 For a step-by-step walkthrough of each notebook and full setup options, see the [Getting started](#getting-started) and [Reproducing the paper](#reproducing-the-paper) sections below.
 
@@ -52,8 +69,8 @@ For a step-by-step walkthrough of each notebook and full setup options, see the 
 ### Prerequisites
 
 - Python 3.11+
-- R >= 4.3 (for GCCM causal analysis only — see [`R/INSTALL.md`](R/INSTALL.md))
-- A [Google Earth Engine](https://earthengine.google.com/) account — **only required if re-running the GEE processing pipeline (Step 1 of [Reproducing the paper](#reproducing-the-paper)) from scratch.** Skip this if just reproducing the figures; the pre-processed raster is available on Zenodo (see [Data access](#data-access)). If needed, free for research use - see the [GEE access guide](https://developers.google.com/earth-engine/guides/access) and [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for setup.
+- R >= 4.3 (for the GCCM causal analysis only — see [`R/INSTALL.md`](R/INSTALL.md))
+- *Optional:* a [Google Earth Engine](https://earthengine.google.com/) account — only if you want to re-run the satellite-imagery pipeline (Step 1) from scratch. Skip if you just want the figures; the processed raster is on Zenodo. See Setup Step 5 (collapsible) below.
 
 ### Setup
 
@@ -73,17 +90,26 @@ For a step-by-step walkthrough of each notebook and full setup options, see the 
 
 3. Download the archived raster and pre-fit models from Zenodo — see [Data access](#data-access) below. This avoids the GEE pipeline entirely.
 
-4. *(Only if re-running the GEE pipeline from scratch — Step 1 of [Reproducing the paper](#reproducing-the-paper))* Authenticate with Google Earth Engine:
-   ```bash
-   earthengine authenticate
-   ```
-   Then initialize with your GEE cloud project ID. See [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for a detailed walkthrough if this is your first time using GEE. You will also need to edit `config/processing.yaml` (the `ee_project`, `ee_boundary_asset`, and `roads_asset` fields at the bottom) to point at your own GEE project and uploaded assets.
-
-5. *(Required for the GCCM causal analysis — Step 4 of [Reproducing the paper](#reproducing-the-paper))* Install the R packages. The fast path is `renv`, which restores the exact versions used in the analysis:
+4. *(Required for the GCCM causal analysis — Step 4 of [Reproducing the paper](#reproducing-the-paper))* Install the R packages. The fast path is `renv`, which restores the exact versions used in the analysis:
    ```bash
    Rscript -e "install.packages('renv'); renv::restore()"
    ```
    See [`R/INSTALL.md`](R/INSTALL.md) for alternatives (manual install of the five top-level packages) and version notes.
+
+<details>
+<summary><strong>5. <em>(Optional — only if you want to re-run the GEE pipeline from scratch)</em> Google Earth Engine authentication</strong></summary>
+
+If you want to regenerate the raster stack from satellite imagery rather than downloading it from Zenodo, authenticate with Google Earth Engine:
+
+```bash
+earthengine authenticate
+```
+
+Then initialize with your GEE cloud project ID. See [`notebooks/reference/GEE_setup.ipynb`](notebooks/reference/GEE_setup.ipynb) for a detailed walkthrough if this is your first time using GEE. You will also need to edit `config/processing.yaml` (the `ee_project`, `ee_boundary_asset`, and `roads_asset` fields at the bottom) to point at your own GEE project and uploaded assets.
+
+For most readers and reviewers this step is unnecessary — the processed raster on Zenodo is the exact output of this pipeline.
+
+</details>
 
 ### Project structure
 
@@ -230,18 +256,6 @@ This produces `models/xgb_model.pkl`, `models/rf_model.pkl`, and `models/svm_mod
 The raster is also fully regenerable from Step 1 (GEE) — see [`data/README.md`](data/README.md) for full data sources and provenance. All input data sources are open-access.
 
 **Code archive:** This codebase is openly available at <https://github.com/helyne/ouaga-urban-heat-drivers>.
-
-## Research question/objective
-
-- How transferable are the drivers of urban heat islands across diverse climatic and urban contexts?
-- Are the factors that drive extreme heat universal, or are they specific to a city's geography, climate, and development pattern?
-
-
-## Background/Motivation
-
-This comparative study adapts the methodology of Hoang et al. (2025) — originally applied to Da Nang, Vietnam — and applies it to Ouagadougou, Burkina Faso, to investigate urban heat hotspots in a Sahelian urban context. The framework evaluates the effectiveness of machine learning models in identifying hotspots during heatwave events, identifies the most influential environmental and urban factors driving hotspot formation, and contrasts the results with the humid-tropical Da Nang setting to highlight which patterns are climate-dependent.
-
-Hoang, ND., Huynh, TC. & Bui, DT. An interpretable machine learning framework for mapping hotspots and identifying their driving factors in urban environments during heat waves. Environ Monit Assess 197, 1017 (2025). https://doi.org/10.1007/s10661-025-14461-0
 
 
 ## Data
