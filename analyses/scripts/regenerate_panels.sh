@@ -30,7 +30,13 @@ cd "$REPO_ROOT"
 # Throw-away directory for executed notebook copies so we don't dirty
 # the tracked .ipynb files with new cell outputs.
 NB_OUT_DIR="$(mktemp -d -t ouaga-nbexec-XXXXXX)"
-trap 'rm -rf "$NB_OUT_DIR"' EXIT
+
+# Empty Jupyter config dir so nbconvert ignores any user-level config
+# that may reference unavailable preprocessors / templates. Reviewers
+# with custom Jupyter setups will not have their environments interfere.
+JUPYTER_CONFIG_DIR="$(mktemp -d -t ouaga-jupyterconf-XXXXXX)"
+export JUPYTER_CONFIG_DIR
+trap 'rm -rf "$NB_OUT_DIR" "$JUPYTER_CONFIG_DIR"' EXIT
 
 echo "[1/5] LST hotspot map (notebook 02)..."
 jupyter nbconvert --to notebook --execute notebooks/02_hotspot_detection.ipynb \
